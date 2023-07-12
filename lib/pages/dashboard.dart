@@ -138,7 +138,15 @@ class _DashboardState extends State<Dashboard> {
                     )
                   ],
                 ),
-              )
+              ),
+              Text(
+                'Hy Rian Welcome',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontFamily: 'tahoma',
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white),
+              ),
             ],
           ),
         ),

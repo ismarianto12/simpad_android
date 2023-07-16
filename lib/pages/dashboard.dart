@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simpad_flutter/components/menu.dart';
+import 'package:simpad_flutter/pages/login.dart';
 import '../components/menuitems.dart';
 import 'package:flutter_charts/flutter_charts.dart';
 
@@ -12,6 +13,8 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   @override
+  final tglsekarang = DateTime.now();
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
@@ -26,57 +29,107 @@ class _DashboardState extends State<Dashboard> {
               ],
             ),
             SizedBox(height: 12.0),
-            Center(
-                child: Text(
-              "Menu Utama",
-              style: TextStyle(fontSize: 18.0),
-            )),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Image.network(
+                    'https://static.vecteezy.com/system/resources/previews/010/896/688/original/menu-icon-sign-symbol-design-free-png.png',
+                    height: 40,
+                    width: 40,
+                  ),
+                  SizedBox(width: 10),
+                  Center(
+                    child: Text(
+                      "Menu Utama",
+                      style: TextStyle(
+                          fontSize: 20.0, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30), //border corner radius
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5), //color of shadow
+                    spreadRadius: 0, //spread radius
+                    blurRadius: 0, // blur radius
+                    offset: Offset(0, 6), // changes position of shadow
+                    //first paramerter of offset is left-right
+                    //second parameter is top to down
+                  ),
+                  //you can set more BoxShadow() here
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 10.0),
                 child: GridView.count(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
                   crossAxisCount: 3,
                   children: [
                     // Your grid items
-                    Container(
-                      child: Column(
-                        children: [
-                          Image.network(
-                            "https://static.vecteezy.com/system/resources/previews/010/146/533/original/tax-icon-sign-symbol-design-free-png.png",
-                            height: 50,
-                            width: 50,
-                          ),
-                          SizedBox(height: 10),
-                          Text('SPTPD')
-                        ],
+
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/lapor_sptpd', (route) => false);
+                      },
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Image.network(
+                              "https://static.vecteezy.com/system/resources/previews/010/146/533/original/tax-icon-sign-symbol-design-free-png.png",
+                              height: 50,
+                              width: 50,
+                            ),
+                            SizedBox(height: 10),
+                            Text('SPTPD')
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Image.network(
-                            "https://bangun-rumah.com/wp-content/uploads/survey-icon-12.png",
-                            height: 50,
-                            width: 50,
-                          ),
-                          SizedBox(height: 10),
-                          Text('List SPTPD')
-                        ],
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/list_sptpd', (route) => false);
+                      },
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Image.network(
+                              "https://bangun-rumah.com/wp-content/uploads/survey-icon-12.png",
+                              height: 50,
+                              width: 50,
+                            ),
+                            SizedBox(height: 10),
+                            Text('List SPTPD')
+                          ],
+                        ),
                       ),
                     ),
-                    Container(
-                      child: Column(
-                        children: [
-                          Image.network(
-                            "https://static.vecteezy.com/system/resources/previews/010/148/344/original/tax-icon-sign-symbol-design-free-png.png",
-                            height: 50,
-                            width: 50,
-                          ),
-                          SizedBox(height: 10),
-                          Text('Riwayat Bayar')
-                        ],
+                    InkWell(
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, '/riwayat_bayar', (route) => false);
+                      },
+                      child: Container(
+                        child: Column(
+                          children: [
+                            Image.network(
+                              "https://static.vecteezy.com/system/resources/previews/010/148/344/original/tax-icon-sign-symbol-design-free-png.png",
+                              height: 50,
+                              width: 50,
+                            ),
+                            SizedBox(height: 10),
+                            Text('Riwayat Bayar')
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -84,16 +137,29 @@ class _DashboardState extends State<Dashboard> {
               ),
             ),
             SizedBox(height: 12.0),
-            Center(
-              child: Text(
-                "Statistik.",
-                style: TextStyle(fontSize: 18.0),
-              ),
-            ),
-            Center(
-              child: Text(
-                "Jumlah.",
-                style: TextStyle(fontSize: 18.0),
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Image.network(
+                    'https://static.vecteezy.com/system/resources/previews/010/896/688/original/menu-icon-sign-symbol-design-free-png.png',
+                    height: 40,
+                    width: 40,
+                  ),
+                  SizedBox(width: 10),
+                  Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          "Total PAD Lapor Pertanggal :",
+                          style: TextStyle(
+                              fontSize: 15.0, fontWeight: FontWeight.bold),
+                        ),
+                        Text('${tglsekarang}'),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
             SizedBox(
@@ -102,14 +168,33 @@ class _DashboardState extends State<Dashboard> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                child: ListTile(
-                  title: Text('Total Pad'),
-                  subtitle: Text('10.000'),
-                  trailing: Icon(Icons.skip_next),
+                // color: Colors.white,
+                elevation: 0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius:
+                        BorderRadius.circular(30), //border corner radius
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5), //color of shadow
+                        spreadRadius: 0, //spread radius
+                        blurRadius: 0, // blur radius
+                        offset: Offset(0, 6), // changes position of shadow
+                        //first paramerter of offset is left-right
+                        //second parameter is top to down
+                      ),
+                      //you can set more BoxShadow() here
+                    ],
+                  ),
+                  child: ListTile(
+                    title: Text('Total Pad'),
+                    subtitle: Text('10.000'),
+                    trailing: Icon(Icons.next_plan),
+                  ),
                 ),
               ),
             ),
-            // Expanded(child: chartToRun()),
           ],
         ),
       ),
@@ -195,12 +280,12 @@ class _DashboardState extends State<Dashboard> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Icon(Icons.arrow_back, color: Colors.white),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Navigator.of(context).pop();
+                    //   },
+                    //   child: Icon(Icons.arrow_back, color: Colors.white),
+                    // ),
                     Text(
                       'Lapor E-SPTPD',
                       style: TextStyle(
@@ -208,21 +293,37 @@ class _DashboardState extends State<Dashboard> {
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
                     ),
-                    Icon(
-                      Icons.attach_file_outlined,
-                      color: Colors.white,
-                    )
+
+                    GestureDetector(
+                      onTap: () {
+                        // Navigator.of(context).pop();
+                        Route route = MaterialPageRoute(
+                            builder: (context) => const Login());
+
+                        Navigator.push(context, route);
+                      },
+                      child: Icon(
+                        Icons.login_outlined,
+                        color: Colors.white,
+                      ),
+                    ),
                   ],
                 ),
               ),
               SizedBox(height: 10),
-              Text(
-                'Hy Rian Welcome',
-                style: TextStyle(
-                    fontSize: 15,
-                    fontFamily: 'tahoma',
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(width: 20),
+                  Text(
+                    'Hy Rian Welcome',
+                    style: TextStyle(
+                        fontSize: 15,
+                        fontFamily: 'tahoma',
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white),
+                  ),
+                ],
               ),
             ],
           ),

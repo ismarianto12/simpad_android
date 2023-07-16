@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:simpad_flutter/pages/Profile.dart';
 import 'package:simpad_flutter/pages/dashboard.dart';
+import 'package:simpad_flutter/pages/laporSptpd.dart';
+import 'package:simpad_flutter/pages/listSptpd.dart';
 import 'package:simpad_flutter/pages/login.dart';
 
 import 'components/navigate.dart';
@@ -9,11 +11,15 @@ class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case '/login':
-        return MaterialPageRoute(builder: (_) => Login());
+        return MaterialPageRoute(builder: (_) => Navigate());
       case '/dashboard':
         return MaterialPageRoute(builder: (_) => Dashboard());
       case '/profile':
         return MaterialPageRoute(builder: (_) => Profile());
+      case '/lapor_sptpd':
+        return MaterialPageRoute(builder: (_) => LaporSptpd());
+      case '/list_sptpd':
+        return MaterialPageRoute(builder: (_) => ListSptpd());
 
       default:
         return MaterialPageRoute(

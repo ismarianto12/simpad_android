@@ -104,36 +104,41 @@ class _LoginState extends State<Login> {
               ]),
             ),
 
-            SizedBox(height: 52),
+            SizedBox(height: 12),
             Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Form(
                   key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        TextFormField(
                           controller: _usernameController,
                           keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     width: 1,
-                                    color: Colors.black) //<-- SEE HERE
+                                    color: const Color.fromARGB(
+                                        255, 140, 139, 139)) //<-- SEE HERE
                                 ),
                             prefixIcon: Icon(
                               Icons.verified_user_sharp,
-                              color: Colors.black,
+                              color: const Color.fromARGB(255, 140, 139, 139),
                             ),
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                              borderSide: BorderSide(
+                                  color:
+                                      const Color.fromARGB(255, 140, 139, 139)),
                             ),
-                            fillColor: Colors.black,
+                            fillColor: const Color.fromARGB(255, 140, 139, 139),
                             hintText: 'Username /Npwpd',
-                            hintStyle: TextStyle(color: Colors.black),
+                            hintStyle: TextStyle(
+                                color:
+                                    const Color.fromARGB(255, 140, 139, 139)),
                             // border: OutlineInputBorder(
                             //   borderSide: BorderSide(color: Colors.white),
                             // ),
@@ -145,29 +150,31 @@ class _LoginState extends State<Login> {
                             return null;
                           },
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextFormField(
+                        SizedBox(height: 10),
+                        TextFormField(
                           controller: _passwordController,
                           obscureText: true,
                           decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                     width: 1,
-                                    color: Colors.black) //<-- SEE HERE
+                                    color: const Color.fromARGB(
+                                        255, 140, 139, 139)) //<-- SEE HERE
                                 ),
                             prefixIcon: Icon(
                               Icons.access_alarms,
-                              color: Colors.black,
+                              color: const Color.fromARGB(255, 140, 139, 139),
                             ),
                             border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.black),
+                              borderSide: BorderSide(
+                                  color:
+                                      const Color.fromARGB(255, 140, 139, 139)),
                             ),
-                            fillColor: Colors.black,
+                            fillColor: const Color.fromARGB(255, 140, 139, 139),
                             hintText: 'Password',
-                            hintStyle: TextStyle(color: Colors.black),
+                            hintStyle: TextStyle(
+                                color:
+                                    const Color.fromARGB(255, 140, 139, 139)),
                             // border: OutlineInputBorder(
                             //   borderSide: BorderSide(color: Colors.white),
                             // ),
@@ -179,13 +186,15 @@ class _LoginState extends State<Login> {
                             return null;
                           },
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.all(30),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              width: 400,
+                              // margin: EdgeInsets.all(30),
                               child: MaterialButton(
                                 // minWidth: 100,
                                 color: Color.fromARGB(
@@ -208,27 +217,54 @@ class _LoginState extends State<Login> {
                                 ),
                               ),
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(height: 126),
-                      InkWell(
-                        onTap: () {
-                          // Route route = MaterialPageRoute(
-                          //     builder: (context) => null);
-                          // Navigator.push(context, route);
-                          // null
-                        },
-                        child: Text(
-                          'Forget Passowrd ?',
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: const Color.fromARGB(255, 0, 0, 0)),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              width: 400,
+                              child: MaterialButton(
+                                // minWidth: 100,
+                                color: Color.fromARGB(
+                                    255, 230, 132, 5), // Background color
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100),
+                                ),
+                                onPressed: () {
+                                  Route route = MaterialPageRoute(
+                                      builder: (context) => const Navigate());
+                                  Navigator.push(context, route);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Text(
+                                    'Daftar',
+                                    style: TextStyle(
+                                        fontSize: 18.0, color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 16),
-                      SizedBox(height: 50),
-                    ],
+                        SizedBox(height: 126),
+                        InkWell(
+                          onTap: () {
+                            // Route route = MaterialPageRoute(
+                            //     builder: (context) => null);
+                            // Navigator.push(context, route);
+                            // null
+                          },
+                          child: Text(
+                            'Forget Passowrd ?',
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: const Color.fromARGB(255, 0, 0, 0)),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        SizedBox(height: 50),
+                      ],
+                    ),
                   ),
                 ),
               ],

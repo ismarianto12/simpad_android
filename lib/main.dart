@@ -17,7 +17,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       title: 'Simpad',
-      home: Login(),
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 255, 255, 255)),
+        useMaterial3: true,
+      ),
+      home: const Login(),
     );
   }
 }

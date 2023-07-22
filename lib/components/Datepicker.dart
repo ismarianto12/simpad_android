@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 class Datepicker extends StatefulWidget {
   final TextEditingController controller;
   final String label;
-  final Function(DateTime) onDateSelected; // Menambahkan function parameter
+  final Function(DateTime) onDateSelected;
 
-  Datepicker(
-      {required this.label,
-      required this.controller,
-      required this.onDateSelected});
+  Datepicker({
+    required this.label,
+    required this.controller,
+    required this.onDateSelected,
+  });
 
   @override
   _DatepickerState createState() => _DatepickerState();
@@ -37,13 +38,10 @@ class _DatepickerState extends State<Datepicker> {
         _selectedDate = picked;
       });
       widget.controller.text = _formatDate(_selectedDate!);
-      widget.onDateSelected(_selectedDate!); // Memanggil callback function
+      widget.onDateSelected(_selectedDate!);
     }
   }
 
-  // String _formatDate(DateTime date) {
-  //   return '${date.day}/${date.month}/${date.year}';
-  // }
   String _formatDate(DateTime date) {
     return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }

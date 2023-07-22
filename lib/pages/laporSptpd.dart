@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:simpad_flutter/env.dart';
 
 import '../../components/Datepicker.dart';
 import 'package:file_picker/file_picker.dart';
@@ -73,11 +74,10 @@ class _LaporSptpdState extends State<LaporSptpd> {
       //   'instruksiKhusus': _instruksiKhususController.text,
       // });
       //     response.files.add(await http.MultipartFile.fromPath('file', path));
-
       // print(response.body);
 
-      String apiUrl =
-          'https://example.com/upload'; // Replace with your API endpoint
+      String apiUrl = APP_API +
+          'v1/api/sptpd/simpanSptpd'; // Replace with your API endpoint
       var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
       // File file = filePath!);
       // String fileName = filename!;
@@ -90,7 +90,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
 
       request.fields['additionalData'] = _tanggalPenitipanController.text;
       http.StreamedResponse response = await request.send();
-      print("${response}");
+      print("response code  ${response.statusCode}");
       if (response.statusCode == 200) {
         // SnackBar(
         //   content: Text('Data berhasil disimpan'),
@@ -167,6 +167,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
       ),
       key: _scaffoldKey,
       appBar: AppBar(
+        elevation: 0,
         backgroundColor: Colors.white,
         leading: InkWell(
           onTap: () {
@@ -185,131 +186,128 @@ class _LaporSptpdState extends State<LaporSptpd> {
         ),
       ),
       body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.width * 20,
-          width: MediaQuery.of(context).size.width * 20,
-          child: Column(
-            children: [
-              // Image.asset(
-              //   "assets/images/loan_top.png",
-              //   height: 200,
-              //   width: 200,
-              // ),
-              Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      // SizedBox(height: 20),
-                      Image.network(
-                        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwePPZvclrChuuZWVtDVSh29tIBoRScHrQhsWPo6jtIn8OjDwp1eNNbQ6-DVjr3yjenZo&usqp=CAU',
-                        // height: 200,
-                        // width: ,
-                        fit: BoxFit.cover,
-                      ),
-                      Datepicker(
-                        controller: _tanggalPenitipanController,
-                        onDateSelected: (DateTime selectedDate) {
-                          _hitungBiayaPenitipan();
-                        },
-                        label: 'Tanggal Lapor',
-                      ),
-                      SizedBox(height: 20),
-                      // TextFormField(
-                      //   enabled: false,
-                      //   controller: _durasiPenitipanController,
-                      //   decoration: InputDecoration(
-                      //     labelText: 'Pajak Bulan : ',
-                      //     border: OutlineInputBorder(
-                      //       borderRadius: BorderRadius.circular(8.0),
-                      //     ),
-                      //     contentPadding: EdgeInsets.symmetric(
-                      //         vertical: 12.0, horizontal: 16.0),
-                      //   ),
-                      // ),
-                      //  SizedBox(height: 20),
-                      TextFormField(
-                        controller: _instruksiKhususController,
-                        decoration: InputDecoration(
-                          labelText: 'Jumlah Lapor',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 16.0),
+        child: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.width * 20,
+            width: MediaQuery.of(context).size.width * 20,
+            child: Column(
+              children: [
+                // Image.asset(
+                //   "assets/images/loan_top.png",
+                //   height: 200,
+                //   width: 200,
+                // ),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        // SizedBox(height: 20),
+                        Image.network(
+                          'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQwePPZvclrChuuZWVtDVSh29tIBoRScHrQhsWPo6jtIn8OjDwp1eNNbQ6-DVjr3yjenZo&usqp=CAU',
+                          // height: 200,
+                          // width: ,
+                          fit: BoxFit.cover,
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        controller: _instruksiKhususController,
-                        decoration: InputDecoration(
-                          labelText: 'Jumlah Lapor',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 16.0),
+                        Datepicker(
+                          controller: _tanggalPenitipanController,
+                          onDateSelected: (DateTime selectedDate) {
+                            _hitungBiayaPenitipan();
+                          },
+                          label: 'Tanggal Lapor',
                         ),
-                      ),
-                      SizedBox(height: 20),
-                      Text('Untuk biaya peminjaman per hari adalah 30.0000'),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        controller: _instruksiKhususController,
-                        decoration: InputDecoration(
-                          labelText: 'Catatan Tambahan',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              vertical: 12.0, horizontal: 16.0),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-
-                      Container(
-                        // alignment: Alignment.center,
-                        width: 300,
-                        child: MaterialButton(
-                          color: Color.fromARGB(
-                              255, 87, 89, 82), // Background color
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          onPressed: pickFile,
-                          child: Padding(
-                            padding: const EdgeInsets.all(14.0),
-                            child: Row(
-                              children: [
-                                SizedBox(
-                                  width: 50,
-                                ),
-                                Icon(
-                                  Icons.file_copy,
-                                  color: Colors.white,
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  'Pilih File',
-                                  style: TextStyle(
-                                      fontSize: 14.0, color: Colors.white),
-                                ),
-                              ],
+                        SizedBox(height: 20),
+                        // TextFormField(
+                        //   enabled: false,
+                        //   controller: _durasiPenitipanController,
+                        //   decoration: InputDecoration(
+                        //     labelText: 'Pajak Bulan : ',
+                        //     border: OutlineInputBorder(
+                        //       borderRadius: BorderRadius.circular(8.0),
+                        //     ),
+                        //     contentPadding: EdgeInsets.symmetric(
+                        //         vertical: 12.0, horizontal: 16.0),
+                        //   ),
+                        // ),
+                        //  SizedBox(height: 20),
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          controller: _instruksiKhususController,
+                          decoration: InputDecoration(
+                            labelText: 'Jumlah Lapor',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
                             ),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 16.0),
                           ),
                         ),
-                      ),
-                      // SizedBox(height: 100),
-                    ],
+                        SizedBox(height: 20),
+                        TextFormField(
+                          controller: _instruksiKhususController,
+                          decoration: InputDecoration(
+                            labelText: 'Jumlah Lapor',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 16.0),
+                          ),
+                        ),
+                        SizedBox(height: 20),
+                        Text('Untuk biaya peminjaman per hari adalah 30.0000'),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          controller: _instruksiKhususController,
+                          decoration: InputDecoration(
+                            labelText: 'Catatan Tambahan',
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 12.0, horizontal: 16.0),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+
+                        Container(
+                          width: MediaQuery.of(context).size.width * 0.99,
+                          height: 45,
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(
+                                      20.0), // Adjust the radius as needed
+                                ),
+                              ),
+                              backgroundColor: MaterialStateColor.resolveWith(
+                                (states) {
+                                  if (states.contains(MaterialState.pressed)) {
+                                    return Colors
+                                        .red; // Color when the button is pressed.
+                                  }
+                                  return Color.fromARGB(255, 20, 215,
+                                      88); // Default color for the button.
+                                },
+                              ),
+                            ),
+                            onPressed: () => null,
+                            child: Text('Upload FIle',
+                                style: TextStyle(color: Colors.white)),
+                          ),
+                        ),
+                        // SizedBox(height: 100),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -10,7 +10,7 @@ import 'components/navigate.dart';
 class MyRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case '/login':
+      case '/dashboard_panel':
         return MaterialPageRoute(builder: (_) => Navigate());
       case '/dashboard':
         return MaterialPageRoute(builder: (_) => Dashboard());
@@ -20,6 +20,8 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => LaporSptpd());
       case '/list_sptpd':
         return MaterialPageRoute(builder: (_) => ListSptpd());
+      case '/login':
+        return MaterialPageRoute(builder: (_) => Login());
 
       default:
         return MaterialPageRoute(

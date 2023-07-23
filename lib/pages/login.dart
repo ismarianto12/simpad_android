@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:simpad_flutter/env.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simpad_flutter/utils/middleware.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -29,6 +31,8 @@ class _LoginState extends State<Login> {
 
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
+      Middleware.checkCon(context);
+
       setState(() {
         _isLoading = true;
       });
@@ -38,16 +42,22 @@ class _LoginState extends State<Login> {
         'username': _usernameController.text,
         'password': _passwordController.text,
       });
-      print("Status code ${response.body}");
+      // print("Status code ${response.body}");
 
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body);
+
         var token = jsonResponse['token'];
+        var userid = jsonResponse['userid'];
+
+        SharedPreferences pref = await SharedPreferences.getInstance();
+        pref.setString("username", _usernameController.text);
+        pref.setString("userid", userid);
+
         if (!_isDialogShowing) {
           setState(() {
             _isDialogShowing = true;
           });
-
           final snackBar = SnackBar(
             content: Text('Login berhasil'),
             duration: Duration(
@@ -273,7 +283,7 @@ class _LoginState extends State<Login> {
                             children: [
                               Container(
                                 width: MediaQuery.of(context).size.width * 0.99,
-                                height: 45,
+                                height: 35,
                                 child: ElevatedButton(
                                   style: ButtonStyle(
                                     shape: MaterialStateProperty.all<
@@ -305,7 +315,7 @@ class _LoginState extends State<Login> {
                                 height: 10,
                               ),
                               Container(
-                                height: 45,
+                                height: 35,
                                 width: MediaQuery.of(context).size.width * 0.99,
                                 child: ElevatedButton(
                                     style: ButtonStyle(

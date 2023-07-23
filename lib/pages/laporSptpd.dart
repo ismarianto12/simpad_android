@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:simpad_flutter/env.dart';
+import 'dart:convert';
 
 import '../../components/Datepicker.dart';
 import 'package:file_picker/file_picker.dart';
@@ -17,20 +18,30 @@ class _LaporSptpdState extends State<LaporSptpd> {
 
   TextEditingController _namaController = TextEditingController();
   TextEditingController _nomorTeleponController = TextEditingController();
-  TextEditingController _alamatController = TextEditingController();
-  TextEditingController _namaBarangController = TextEditingController();
-  TextEditingController _deskripsiBarangController = TextEditingController();
-  TextEditingController _tanggalPenitipanController = TextEditingController();
-  TextEditingController _durasiPenitipanController = TextEditingController();
-  TextEditingController _biayaPenitipanController = TextEditingController();
+  TextEditingController _omsetController = TextEditingController();
+
+  // TextEditingController _alamatController = TextEditingController();
+  // TextEditingController _namaBarangController = TextEditingController();
+  // TextEditingController _deskripsiBarangController = TextEditingController();
+  // TextEditingController _tanggalPenitipanController = TextEditingController();
+  // TextEditingController _durasiPenitipanController = TextEditingController();
+  // TextEditingController _biayaPenitipanController = TextEditingController();
+  TextEditingController _jumlahLaporController = TextEditingController();
+
   TextEditingController _instruksiKhususController = TextEditingController();
+  TextEditingController _tahunController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
+
+    _tahunController.text = "2023";
   }
 
   String? filePath;
   String? filename;
+  String? selectedMonth;
+
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
 
@@ -38,68 +49,75 @@ class _LaporSptpdState extends State<LaporSptpd> {
       setState(() {
         filePath = result.files.single.path!;
       });
-
-      // Pass the file to the API
-      // await uploadFile(filePath!);
     }
   }
 
-  void _hitungBiayaPenitipan() {
-    DateTime tglHariIni = DateTime.now();
-    String formattedDate = _tanggalPenitipanController.text;
-    DateTime tglPengembalian = DateTime(
-      int.parse(formattedDate.substring(6)), // Year
-      int.parse(formattedDate.substring(3, 5)), // Month
-      int.parse(formattedDate.substring(0, 2)), // Day
-    );
-    Duration durasiPenitipan = tglPengembalian.difference(tglHariIni);
-    int totalHari = durasiPenitipan.inDays + 1;
-    int biayaPenitipan = totalHari * 10000;
+  List<String> months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
 
-    _durasiPenitipanController.text = totalHari.toString() + ' Hari';
-    _biayaPenitipanController.text = biayaPenitipan.toString();
-  }
+  // void _hitungBiayaPenitipan() {
+  //   DateTime tglHariIni = DateTime.now();
+  //   String formattedDate = _tanggalPenitipanController.text;
+  //   DateTime tglPengembalian = DateTime(
+  //     int.parse(formattedDate.substring(6)), // Year
+  //     int.parse(formattedDate.substring(3, 5)), // Month
+  //     int.parse(formattedDate.substring(0, 2)), // Day
+  //   );
+  //   Duration durasiPenitipan = tglPengembalian.difference(tglHariIni);
+  //   int totalHari = durasiPenitipan.inDays + 1;
+  //   int biayaPenitipan = totalHari * 10000;
+
+  //   _durasiPenitipanController.text = totalHari.toString() + ' Hari';
+  //   _biayaPenitipanController.text = biayaPenitipan.toString();
+  // }
 
   void _simpanData() async {
     if (_formKey.currentState!.validate()) {
-      // var response = await http.post(url, body: {
-      //   'nama': _namaController.text,
-      //   'nomorTelepon': _nomorTeleponController.text,
-      //   'alamat': _alamatController.text,
-      //   'namaBarang': _namaBarangController.text,
-      //   'deskripsiBarang': _deskripsiBarangController.text,
-      //   'tanggalPenitipan': _tanggalPenitipanController.text,
-      //   'durasiPenitipan': _durasiPenitipanController.text,
-      //   'biayaPenitipan': _biayaPenitipanController.text,
-      //   'instruksiKhusus': _instruksiKhususController.text,
-      // });
-      //     response.files.add(await http.MultipartFile.fromPath('file', path));
-      // print(response.body);
-
       String apiUrl = APP_API +
-          'v1/api/sptpd/simpanSptpd'; // Replace with your API endpoint
+          '/v1/api/sptpd/simpanSptpd'; // Replace with your API endpoint
       var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
-      // File file = filePath!);
-      // String fileName = filename!;
-      // request.files.add(await http.MultipartFile.fromPath('file', filePath));
+      // Add form fields
+      request.fields['nama'] = _namaController.text;
+      request.fields['hp'] = _nomorTeleponController.text;
+      request.fields['omset'] = _omsetController.text;
+      request.fields['jumlahlapor'] = _jumlahLaporController.text;
+      request.fields['instruksi'] = _instruksiKhususController.text;
+      request.fields['tahun'] = _tahunController.text;
+      request.fields['idwp'] = "21";
+      request.fields['npwpd'] = "P210311032321";
+
       if (filePath != null) {
         request.files.add(await http.MultipartFile.fromPath('file', filePath!));
       } else {
         // Handle the case when `filePath` is null
       }
-
-      request.fields['additionalData'] = _tanggalPenitipanController.text;
-      http.StreamedResponse response = await request.send();
-      print("response code  ${response.statusCode}");
+      final response = await request.send();
+      String responseBody =
+          await response.stream.transform(utf8.decoder).join();
+      print("response ${responseBody}");
       if (response.statusCode == 200) {
-        // SnackBar(
-        //   content: Text('Data berhasil disimpan'),
-        // );
-        // Navigator.pushNamed(context, '/penitipanlist');
+        final snackBar = SnackBar(
+          content: Text('Data Data Pad Berhasil di laporkan'),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/dashboard_panel', (route) => false);
       } else {
-        // SnackBar(
-        //   content: Text('Gagal menyimpan data'),
-        // );
+        SnackBar(
+          content: Text('Gagal menyimpan data'),
+        );
       }
     }
   }
@@ -172,7 +190,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
         leading: InkWell(
           onTap: () {
             Navigator.pushNamedAndRemoveUntil(
-                context, '/dashboard', (route) => false);
+                context, '/dashboard_panel', (route) => false);
           },
           child: Icon(
             Icons.arrow_back_ios,
@@ -210,13 +228,60 @@ class _LaporSptpdState extends State<LaporSptpd> {
                           // width: ,
                           fit: BoxFit.cover,
                         ),
-                        Datepicker(
-                          controller: _tanggalPenitipanController,
-                          onDateSelected: (DateTime selectedDate) {
-                            _hitungBiayaPenitipan();
-                          },
-                          label: 'Tanggal Lapor',
+
+                        Row(
+                          children: [
+                            Container(
+                              height: 50,
+                              width: MediaQuery.of(context).size.width * 0.50,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 30, right: 30, top: 5, bottom: 0),
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  underline: Container(),
+                                  icon: Icon(Icons.keyboard_arrow_down),
+                                  value: selectedMonth,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      selectedMonth = newValue;
+                                    });
+                                  },
+                                  items: months.map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.40,
+                              child: TextFormField(
+                                controller: _tahunController,
+                                enabled: false,
+                                decoration: InputDecoration(
+                                  labelText: 'Tahun',
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  contentPadding: EdgeInsets.symmetric(
+                                      vertical: 12.0, horizontal: 16.0),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
+
                         SizedBox(height: 20),
                         // TextFormField(
                         //   enabled: false,
@@ -233,9 +298,9 @@ class _LaporSptpdState extends State<LaporSptpd> {
                         //  SizedBox(height: 20),
                         TextFormField(
                           keyboardType: TextInputType.number,
-                          controller: _instruksiKhususController,
+                          controller: _omsetController,
                           decoration: InputDecoration(
-                            labelText: 'Jumlah Lapor',
+                            labelText: 'Omset Per Bulan',
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -245,7 +310,8 @@ class _LaporSptpdState extends State<LaporSptpd> {
                         ),
                         SizedBox(height: 20),
                         TextFormField(
-                          controller: _instruksiKhususController,
+                          keyboardType: TextInputType.number,
+                          controller: _jumlahLaporController,
                           decoration: InputDecoration(
                             labelText: 'Jumlah Lapor',
                             border: OutlineInputBorder(
@@ -275,7 +341,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
 
                         Container(
                           width: MediaQuery.of(context).size.width * 0.99,
-                          height: 45,
+                          height: 40,
                           child: ElevatedButton(
                             style: ButtonStyle(
                               shape: MaterialStateProperty.all<
@@ -296,12 +362,16 @@ class _LaporSptpdState extends State<LaporSptpd> {
                                 },
                               ),
                             ),
-                            onPressed: () => null,
+                            onPressed: () => pickFile(),
                             child: Text('Upload FIle',
                                 style: TextStyle(color: Colors.white)),
                           ),
                         ),
-                        // SizedBox(height: 100),
+                        SizedBox(height: 5),
+                        Text(
+                          "File name : " + filename.toString(),
+                          style: TextStyle(fontWeight: FontWeight.w200),
+                        ),
                       ],
                     ),
                   ),
@@ -318,13 +388,8 @@ class _LaporSptpdState extends State<LaporSptpd> {
   void dispose() {
     _namaController.text;
     _nomorTeleponController.text;
-    _alamatController.text;
-    _namaBarangController.text;
-    _deskripsiBarangController.text;
-    _tanggalPenitipanController.text;
-    _durasiPenitipanController.text;
-    _biayaPenitipanController.text;
     _instruksiKhususController.text;
+    filename;
     super.dispose();
   }
 }

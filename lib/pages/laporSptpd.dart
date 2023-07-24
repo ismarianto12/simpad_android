@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:simpad_flutter/env.dart';
+import 'package:simpad_flutter/utils/middleware.dart';
 import 'dart:convert';
 
 import '../../components/Datepicker.dart';
@@ -84,6 +85,9 @@ class _LaporSptpdState extends State<LaporSptpd> {
   // }
 
   void _simpanData() async {
+    String username = Middleware.getParams("username").toString();
+    String wpid = Middleware.getParams("wpid").toString();
+
     if (_formKey.currentState!.validate()) {
       String apiUrl = APP_API +
           '/v1/api/sptpd/simpanSptpd'; // Replace with your API endpoint
@@ -95,8 +99,8 @@ class _LaporSptpdState extends State<LaporSptpd> {
       request.fields['jumlahlapor'] = _jumlahLaporController.text;
       request.fields['instruksi'] = _instruksiKhususController.text;
       request.fields['tahun'] = _tahunController.text;
-      request.fields['idwp'] = "21";
-      request.fields['npwpd'] = "P210311032321";
+      request.fields['idwp'] = wpid;
+      request.fields['npwpd'] = username;
 
       if (filePath != null) {
         request.files.add(await http.MultipartFile.fromPath('file', filePath!));

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:simpad_flutter/env.dart';
+import 'package:simpad_flutter/utils/middleware.dart';
 
 class ListSptpd extends StatefulWidget {
   @override
@@ -6,27 +11,31 @@ class ListSptpd extends StatefulWidget {
 }
 
 class _ListSptpdState extends State<ListSptpd> {
-  List<Map<String, dynamic>> _data = [
-    {
-      'id': 1,
-      'name': 'John Doe',
-      'age': 25,
-      'email': 'johndoe@example.com',
-    },
-    {
-      'id': 2,
-      'name': 'Jane Smith',
-      'age': 30,
-      'email': 'janesmith@example.com',
-    },
-    {
-      'id': 3,
-      'name': 'Alice Johnson',
-      'age': 28,
-      'email': 'alicejohnson@example.com',
-    },
-    // Add more data as needed
-  ];
+  List<Map<String, dynamic>> _data = [];
+
+  bool _loading = true;
+
+  // [
+  //   {
+  //     'id': 1,
+  //     'name': 'John Doe',
+  //     'age': 25,
+  //     'email': 'johndoe@example.com',
+  //   },
+  //   {
+  //     'id': 2,
+  //     'name': 'Jane Smith',
+  //     'age': 30,
+  //     'email': 'janesmith@example.com',
+  //   },
+  //   {
+  //     'id': 3,
+  //     'name': 'Alice Johnson',
+  //     'age': 28,
+  //     'email': 'alicejohnson@example.com',
+  //   },
+  //   // Add more data as needed
+  // ];
 
   List<Map<String, dynamic>> _filteredData = [];
 
@@ -39,6 +48,21 @@ class _ListSptpdState extends State<ListSptpd> {
   void initState() {
     super.initState();
     _filteredData = List.from(_data);
+    fetchData();
+  }
+
+  Future<List<Map<String, dynamic>>> fetchData() async {
+    String wpid = Middleware.getParams("wpid").toString();
+    var url = Uri.parse(APP_API + "sptpd/listdata");
+    http.Response resdata = await http.post(url,
+        headers: {"Content-Type": "application/x-www-form-urlencoded"},
+        body: {"loginid": wpid});
+    print("respinse ${resdata.body}");
+    setState(() {
+      _loading = false;
+      _data = List<Map<String, dynamic>>.from(json.decode(resdata.body));
+    });
+    return _data;
   }
 
   void _sort<T>(Comparable<T> Function(Map<String, dynamic> d) getField,
@@ -118,50 +142,54 @@ class _ListSptpdState extends State<ListSptpd> {
           Expanded(
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
-              child: DataTable(
-                sortAscending: _sortAscending,
-                sortColumnIndex: _sortColumnIndex,
-                columns: [
-                  DataColumn(
-                    label: Text('ID'),
-                    numeric: true,
-                    onSort: (columnIndex, ascending) {
-                      _sort<int>((d) => d['id'], columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Name'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((d) => d['name'], columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Age'),
-                    numeric: true,
-                    onSort: (columnIndex, ascending) {
-                      _sort<int>((d) => d['age'], columnIndex, ascending);
-                    },
-                  ),
-                  DataColumn(
-                    label: Text('Email'),
-                    onSort: (columnIndex, ascending) {
-                      _sort<String>((d) => d['email'], columnIndex, ascending);
-                    },
-                  ),
-                ],
-                rows: _filteredData
-                    .skip(0)
-                    .take(_rowsPerPage)
-                    .map((row) => DataRow(
-                          cells: [
-                            DataCell(Text(row['id'].toString())),
-                            DataCell(Text(row['name'])),
-                            DataCell(Text(row['age'].toString())),
-                            DataCell(Text(row['email'])),
-                          ],
-                        ))
-                    .toList(),
-              ),
+              child: _loading == false
+                  ? CircularProgressIndicator()
+                  : DataTable(
+                      sortAscending: _sortAscending,
+                      sortColumnIndex: _sortColumnIndex,
+                      columns: [
+                        DataColumn(
+                          label: Text('ID'),
+                          numeric: true,
+                          onSort: (columnIndex, ascending) {
+                            _sort<int>((d) => d['id'], columnIndex, ascending);
+                          },
+                        ),
+                        DataColumn(
+                          label: Text('Name'),
+                          onSort: (columnIndex, ascending) {
+                            _sort<String>(
+                                (d) => d['name'], columnIndex, ascending);
+                          },
+                        ),
+                        DataColumn(
+                          label: Text('Age'),
+                          numeric: true,
+                          onSort: (columnIndex, ascending) {
+                            _sort<int>((d) => d['age'], columnIndex, ascending);
+                          },
+                        ),
+                        DataColumn(
+                          label: Text('Email'),
+                          onSort: (columnIndex, ascending) {
+                            _sort<String>(
+                                (d) => d['email'], columnIndex, ascending);
+                          },
+                        ),
+                      ],
+                      rows: _filteredData
+                          .skip(0)
+                          .take(_rowsPerPage)
+                          .map((row) => DataRow(
+                                cells: [
+                                  DataCell(Text(row['id'].toString())),
+                                  DataCell(Text(row['name'])),
+                                  DataCell(Text(row['age'].toString())),
+                                  DataCell(Text(row['email'])),
+                                ],
+                              ))
+                          .toList(),
+                    ),
             ),
           ),
           Row(

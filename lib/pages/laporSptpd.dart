@@ -9,6 +9,9 @@ import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
 class LaporSptpd extends StatefulWidget {
+  final dynamic idspt;
+  LaporSptpd({this.idspt});
+
   @override
   _LaporSptpdState createState() => _LaporSptpdState();
 }
@@ -36,12 +39,27 @@ class _LaporSptpdState extends State<LaporSptpd> {
   void initState() {
     super.initState();
 
+    if (widget.idspt != '' || widget.idspt != null) {
+      _CallApi(widget.idspt);
+
+      print("Edit action");
+    } else if (widget.idspt == null) {
+      _nomorTeleponController.text = "";
+      _omsetController.text = "";
+      _jumlahLaporController.text = "";
+      _instruksiKhususController.text = "";
+      _tahunController.text = "";
+    }
+    // print("spt id ${widget.idspt}");
+    print("Add action");
+
     _tahunController.text = "2023";
   }
 
   String? filePath;
   String? filename;
   String? selectedMonth;
+  String? _action;
 
   Future<void> pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles();
@@ -68,6 +86,32 @@ class _LaporSptpdState extends State<LaporSptpd> {
     'December',
   ];
 
+  Future _CallApi(idspt) async {
+    String idwp = await Middleware.getParams("userid");
+    final url = Uri.parse(APP_API + '/v1/api/sptpd/edit');
+    http.Response res = await http.post(
+      url,
+      body: {"login": idwp, "idspt": widget.idspt.toString()},
+    );
+
+    if (res.statusCode == 200) {
+      setState(() {
+        _action = "edit";
+        _nomorTeleponController.text = "";
+        _omsetController.text = "981312";
+        _jumlahLaporController.text = "";
+        _instruksiKhususController.text = "";
+        _tahunController.text = "";
+      });
+    } else {
+      print("respponse res ${res.body}");
+      final snackBar =
+          SnackBar(content: Text("kesalahan parsing data ${res.body}"));
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
   // void _hitungBiayaPenitipan() {
   //   DateTime tglHariIni = DateTime.now();
   //   String formattedDate = _tanggalPenitipanController.text;
@@ -85,8 +129,10 @@ class _LaporSptpdState extends State<LaporSptpd> {
   // }
 
   void _simpanData() async {
-    String username = Middleware.getParams("username").toString();
-    String wpid = Middleware.getParams("wpid").toString();
+    String username = await Middleware.getParams("username");
+    String wpid = await Middleware.getParams("userid");
+
+    print("userid ${wpid}");
 
     if (_formKey.currentState!.validate()) {
       String apiUrl = APP_API +
@@ -113,14 +159,14 @@ class _LaporSptpdState extends State<LaporSptpd> {
       print("response ${responseBody}");
       if (response.statusCode == 200) {
         final snackBar = SnackBar(
-          content: Text('Data Data Pad Berhasil di laporkan'),
+          content: const Text('Data Data Pad Berhasil di laporkan'),
         );
         ScaffoldMessenger.of(context).showSnackBar(snackBar);
         Navigator.pushNamedAndRemoveUntil(
             context, '/dashboard_panel', (route) => false);
       } else {
         SnackBar(
-          content: Text('Gagal menyimpan data'),
+          content: const Text('Gagal menyimpan data'),
         );
       }
     }
@@ -133,7 +179,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
       floatingActionButton: Container(
         height: 70.0,
         color: Colors.white,
-        margin: EdgeInsets.only(top: 20.0),
+        margin: const EdgeInsets.only(top: 20.0),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -146,7 +192,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
               ),
               onPressed: _simpanData,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: Row(
                   children: [
                     Icon(
@@ -154,7 +200,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
                       color: Colors.white,
                     ),
                     Text(
-                      'Simpan',
+                      widget.idspt ? "Edit" : 'Tambah',
                       style: TextStyle(fontSize: 15.0, color: Colors.white),
                     ),
                   ],
@@ -168,8 +214,8 @@ class _LaporSptpdState extends State<LaporSptpd> {
                 borderRadius: BorderRadius.circular(100),
               ),
               onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
+              child: const Padding(
+                padding: EdgeInsets.all(10.0),
                 child: Row(
                   children: [
                     Icon(

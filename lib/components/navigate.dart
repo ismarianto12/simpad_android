@@ -16,7 +16,7 @@ class _NavigateState extends State<Navigate> {
   int index_color = 0;
   List<Widget> screens = [
     Dashboard(),
-    LaporSptpd(),
+    ListSptpd(),
     ListSptpd(),
     Profile(),
   ];

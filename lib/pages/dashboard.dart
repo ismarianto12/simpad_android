@@ -74,7 +74,6 @@ class _DashboardState extends State<Dashboard> {
                   crossAxisCount: 3,
                   children: [
                     // Your grid items
-
                     InkWell(
                       onTap: () {
                         Navigator.pushNamedAndRemoveUntil(
@@ -102,8 +101,8 @@ class _DashboardState extends State<Dashboard> {
                       child: Container(
                         child: Column(
                           children: [
-                            Image.network(
-                              "https://bangun-rumah.com/wp-content/uploads/survey-icon-12.png",
+                            Image.asset(
+                              "assets/images/spt.png",
                               height: 50,
                               width: 50,
                             ),

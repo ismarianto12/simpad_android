@@ -48,7 +48,8 @@ class _LoginState extends State<Login> {
         var jsonResponse = json.decode(response.body);
 
         var token = jsonResponse['token'];
-        var userid = jsonResponse['userid'];
+        var userid = jsonResponse['userid'].toString();
+        // print("user : ${userid}");
 
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString("username", _usernameController.text);
@@ -89,9 +90,9 @@ class _LoginState extends State<Login> {
                 TextButton(
                   child: const Text('OK'),
                   onPressed: () {
-                    // Navigator.of(context).pop();
-                    Navigator.pushNamedAndRemoveUntil(
-                        context, '/dashboard_panel', (route) => false);
+                    Navigator.of(context).pop();
+                    // Navigator.pushNamedAndRemoveUntil(
+                    //     context, '/dashboard_panel', (route) => false);
                   },
                 ),
               ],

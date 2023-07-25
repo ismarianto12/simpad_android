@@ -5,7 +5,7 @@ import 'dart:io';
 class Middleware {
   static Future<dynamic> getParams(String? params) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
-    String prefdata = pref.getString("username").toString();
+    String prefdata = pref.getString("${params}").toString();
     return prefdata;
   }
 

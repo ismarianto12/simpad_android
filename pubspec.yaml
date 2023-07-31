@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.2.0
   pdf: ^3.10.4
   pdf_viewer_plugin: ^2.0.1
+  webview_flutter: ^3.0.0
 
 
 dev_dependencies:

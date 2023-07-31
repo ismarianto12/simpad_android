@@ -349,10 +349,11 @@ class _LoginState extends State<Login> {
                           SizedBox(height: 126),
                           InkWell(
                             onTap: () {
-                              // TODO: Implement Forgot Password functionality
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/daftarwp', (route) => false);
                             },
                             child: Text(
-                              'Forget Password ?',
+                              'Dafta Wajib Pajak ',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: const Color.fromARGB(255, 0, 0, 0),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simpad_flutter/pages/Chart.dart';
 import 'package:simpad_flutter/pages/dashboard.dart';
 
 import '../pages/Profile.dart';
@@ -17,16 +18,18 @@ class _NavigateState extends State<Navigate> {
   List<Widget> screens = [
     Dashboard(),
     ListSptpd(),
-    ListSptpd(),
+    Chart(),
     Profile(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: screens[index_color],
       floatingActionButton: FloatingActionButton(
+        focusElevation: 0,
         child: Icon(
           Icons.add,
           color: Colors.white,

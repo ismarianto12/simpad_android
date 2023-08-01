@@ -39,8 +39,9 @@ class _LaporSptpdState extends State<LaporSptpd> {
   void initState() {
     super.initState();
 
-    if (widget.idspt != '' || widget.idspt != null) {
+    if (widget!.idspt != null) {
       _CallApi(widget.idspt);
+      print(widget!.idspt);
 
       print("Edit action");
     } else if (widget.idspt == null) {
@@ -48,7 +49,6 @@ class _LaporSptpdState extends State<LaporSptpd> {
       _omsetController.text = "";
       _jumlahLaporController.text = "";
       _instruksiKhususController.text = "";
-      _tahunController.text = "";
     }
     // print("spt id ${widget.idspt}");
     print("Add action");
@@ -86,25 +86,27 @@ class _LaporSptpdState extends State<LaporSptpd> {
     'December',
   ];
 
-  Future _CallApi(idspt) async {
+  Future<void> _CallApi(idspt) async {
     String idwp = await Middleware.getParams("userid");
     final url = Uri.parse(APP_API + '/v1/api/sptpd/edit');
     http.Response res = await http.post(
       url,
       body: {"login": idwp, "idspt": widget.idspt.toString()},
     );
-
+    print('asda');
+    print(res.body);
     if (res.statusCode == 200) {
+      int currentyear = DateTime.now().year;
       setState(() {
         _action = "edit";
-        _nomorTeleponController.text = "";
+        _nomorTeleponController.text = "0"; // Convert int to string
         _omsetController.text = "981312";
         _jumlahLaporController.text = "";
         _instruksiKhususController.text = "";
-        _tahunController.text = "";
+        _tahunController.text = currentyear.toString();
       });
     } else {
-      print("respponse res ${res.body}");
+      print("response res ${res.body}");
       final snackBar =
           SnackBar(content: Text("kesalahan parsing data ${res.body}"));
 
@@ -133,7 +135,6 @@ class _LaporSptpdState extends State<LaporSptpd> {
     String wpid = await Middleware.getParams("userid");
 
     print("userid ${wpid}");
-
     if (_formKey.currentState!.validate()) {
       String apiUrl = APP_API +
           '/v1/api/sptpd/simpanSptpd'; // Replace with your API endpoint
@@ -200,7 +201,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
                       color: Colors.white,
                     ),
                     Text(
-                      widget.idspt ? "Edit" : 'Tambah',
+                      widget!.idspt != null ? "Edit" : 'Tambah',
                       style: TextStyle(fontSize: 15.0, color: Colors.white),
                     ),
                   ],

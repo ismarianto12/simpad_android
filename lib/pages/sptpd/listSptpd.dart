@@ -18,37 +18,65 @@ class _ListSptpdState extends State<ListSptpd>
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(vsync: this);
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
-  }
-
-  Future<void> createPdfAndShow(BuildContext context) async {
-    final pdf = pw.Document();
-
-    pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) => pw.Center(
-          child: pw.Text('Cetak Tanda Terima'),
-        ),
-      ),
-    );
-
-    final file = File('lib/example.pdf');
-    await file.writeAsBytes(await pdf.save());
   }
 
   @override
   Widget build(BuildContext context) {
+    final tinggi = MediaQuery.of(context).size.height * 0.30;
     return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => createPdfAndShow(context),
-          child: Text('Create and Show PDF'),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Stack(
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.35,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                            "https://img.freepik.com/premium-vector/home-digital-online-study-concept_310941-72.jpg?w=2000"),
+                        fit: BoxFit.fill,
+                      ),
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.26),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 100,
+                        height: MediaQuery.of(context).size.height * 0.100,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20)),
+                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Laporan PAD',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 26,
+                                  color: Color.fromARGB(255, 0, 0, 0),
+                                ),
+                              ),
+                            ]),
+                      ),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

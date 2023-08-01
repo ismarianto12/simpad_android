@@ -53,7 +53,15 @@ class _DaftarWpState extends State<DaftarWp> {
           ),
           if (_loading)
             Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(),
+                  Text('Mohon Bersabar Sedang Meload data...')
+                ],
+              ),
             ),
         ],
       ),

@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:simpad_flutter/env.dart';
+import 'package:simpad_flutter/pages/TandaTerima.dart';
 import 'package:simpad_flutter/pages/cetaksptpd.dart';
 import 'package:simpad_flutter/pages/laporSptpd.dart';
 import 'package:simpad_flutter/pages/login.dart';
@@ -77,6 +78,9 @@ class _ListSptpdState extends State<ListSptpd> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        bottomOpacity: 0,
         leading: InkWell(
           onTap: () {
             Navigator.pushNamedAndRemoveUntil(
@@ -84,13 +88,26 @@ class _ListSptpdState extends State<ListSptpd> {
           },
           child: Icon(
             Icons.arrow_back_ios,
-            color: const Color.fromARGB(255, 0, 0, 0),
+            color: Color.fromARGB(255, 0, 0, 0),
           ),
         ),
-        title: Text('List Data SPTPD'),
+        title: Text(
+          'List Data SPTPD',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
       body: _loading
-          ? Center(child: CircularProgressIndicator())
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(),
+                  Text('Mohon Bersabar Sedang Meload data...')
+                ],
+              ),
+            )
           : SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Container(
@@ -323,7 +340,10 @@ class _ListSptpdState extends State<ListSptpd> {
                                                             },
                                                           ),
                                                         ),
-                                                        onPressed: () => null,
+                                                        onPressed: () {
+                                                          _showConfirmDeleteDialog(
+                                                              context);
+                                                        },
                                                         child: Text('Delete',
                                                             style: TextStyle(
                                                                 color: Colors
@@ -372,7 +392,7 @@ class _ListSptpdState extends State<ListSptpd> {
 }
 
 routePrint(BuildContext context) {
-  Route route = MaterialPageRoute(builder: (context) => CetakSptd());
+  Route route = MaterialPageRoute(builder: (context) => TandaTerima());
   Navigator.push(context, route);
 }
 
@@ -380,4 +400,37 @@ routeEdit(BuildContext context, idspt) {
   Route route =
       MaterialPageRoute(builder: (context) => LaporSptpd(idspt: idspt));
   Navigator.push(context, route);
+}
+
+Future<void> _showConfirmDeleteDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Konfirmasi Hapus'),
+        content: Text('Anda yakin akan menghapus ini'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Perform the delete operation here
+              _performDeleteOperation();
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('Delete', style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _performDeleteOperation() {
+  // Implement your delete logic here
+  // This function will be called when the user confirms the delete action
 }

@@ -292,18 +292,18 @@ class _DashboardState extends State<Dashboard> {
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
                     ),
-
                     GestureDetector(
                       onTap: () {
-                        // Navigator.of(context).pop();
                         Route route = MaterialPageRoute(
                             builder: (context) => const Login());
-
                         Navigator.push(context, route);
                       },
-                      child: Icon(
-                        Icons.login_outlined,
-                        color: Colors.white,
+                      child: Container(
+                        color: Colors.green,
+                        child: Icon(
+                          Icons.login_outlined,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],

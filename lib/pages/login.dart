@@ -353,7 +353,7 @@ class _LoginState extends State<Login> {
                                   context, '/daftarwp', (route) => false);
                             },
                             child: Text(
-                              'Dafta Wajib Pajak ',
+                              'Daftar Wajib Pajak ',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: const Color.fromARGB(255, 0, 0, 0),

@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
             seedColor: const Color.fromARGB(255, 255, 255, 255)),
         // useMaterial3: true,
       ),
-      home: _loginid != "" ? Navigate() : Login(),
+      home: _loginid != null ? Navigate() : Login(),
     );
   }
 }

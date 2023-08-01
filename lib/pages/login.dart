@@ -114,7 +114,7 @@ class _LoginState extends State<Login> {
             children: [
               Container(
                 width: 500,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(35.0),
                     bottomRight: Radius.circular(35.0),

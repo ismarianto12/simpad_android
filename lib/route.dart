@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:simpad_flutter/pages/DaftarWp.dart';
 import 'package:simpad_flutter/pages/Profile.dart';
+import 'package:simpad_flutter/pages/RiwayatBayar.dart';
 import 'package:simpad_flutter/pages/dashboard.dart';
 import 'package:simpad_flutter/pages/laporSptpd.dart';
 import 'package:simpad_flutter/pages/listSptpd.dart';
@@ -25,6 +26,9 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => Login());
       case '/daftarwp':
         return MaterialPageRoute(builder: (_) => DaftarWp());
+
+      case '/riwayat_bayar':
+        return MaterialPageRoute(builder: (_) => RiwayatBayar());
 
       default:
         return MaterialPageRoute(

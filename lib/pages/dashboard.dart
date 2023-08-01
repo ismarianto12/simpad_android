@@ -76,8 +76,7 @@ class _DashboardState extends State<Dashboard> {
                     // Your grid items
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/lapor_sptpd', (route) => false);
+                        Navigator.pushNamed(context, '/lapor_sptpd');
                       },
                       child: Container(
                         child: Column(
@@ -95,8 +94,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/list_sptpd', (route) => false);
+                        Navigator.pushNamed(context, '/list_sptpd');
                       },
                       child: Container(
                         child: Column(
@@ -114,8 +112,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, '/riwayat_bayar', (route) => false);
+                        Navigator.pushNamed(context, '/riwayat_bayar');
                       },
                       child: Container(
                         child: Column(
@@ -292,10 +289,13 @@ class _DashboardState extends State<Dashboard> {
                           fontWeight: FontWeight.w600,
                           color: Colors.white),
                     ),
+
                     GestureDetector(
                       onTap: () {
+                        // Navigator.of(context).pop();
                         Route route = MaterialPageRoute(
                             builder: (context) => const Login());
+
                         Navigator.push(context, route);
                       },
                       child: Container(

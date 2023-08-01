@@ -4,14 +4,14 @@ import 'dart:io';
 
 import 'package:pdf/widgets.dart' as pw;
 
-class ListSptpd extends StatefulWidget {
-  const ListSptpd({Key? key}) : super(key: key);
+class RiwayatBayar extends StatefulWidget {
+  const RiwayatBayar({Key? key}) : super(key: key);
 
   @override
-  State<ListSptpd> createState() => _ListSptpdState();
+  State<RiwayatBayar> createState() => _RiwayatBayarState();
 }
 
-class _ListSptpdState extends State<ListSptpd>
+class _RiwayatBayarState extends State<RiwayatBayar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
@@ -29,6 +29,11 @@ class _ListSptpdState extends State<ListSptpd>
   Widget build(BuildContext context) {
     final tinggi = MediaQuery.of(context).size.height * 0.30;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.pushNamed(context, "/dashboard");
+          },
+          child: Icon(Icons.home)),
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false, // set it to false
       body: SafeArea(
@@ -38,12 +43,15 @@ class _ListSptpdState extends State<ListSptpd>
               Stack(
                 children: [
                   Container(
+                    // width: double.infinity,
+                    // height: double.infinity,
                     height: MediaQuery.of(context).size.height * 0.35,
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(
-                            "https://img.freepik.com/premium-vector/home-digital-online-study-concept_310941-72.jpg?w=2000"),
+                            "https://w0.peakpx.com/wallpaper/135/359/HD-wallpaper-ios-13-apple-2019-green-gradient-abstract.jpg"),
                         fit: BoxFit.fill,
+                        alignment: Alignment.topCenter,
                       ),
                     ),
                   ),
@@ -52,7 +60,7 @@ class _ListSptpdState extends State<ListSptpd>
                         top: MediaQuery.of(context).size.height * 0.26),
                     child: Container(
                       width: MediaQuery.of(context).size.width * 100,
-                      height: MediaQuery.of(context).size.height * 20,
+                      height: MediaQuery.of(context).size.height - 60,
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 255, 255, 255),
                         borderRadius: BorderRadius.only(
@@ -63,8 +71,9 @@ class _ListSptpdState extends State<ListSptpd>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            SizedBox(height: 12),
                             Text(
-                              'Laporan PAD',
+                              'Data Bayar PAD',
                               style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 26,

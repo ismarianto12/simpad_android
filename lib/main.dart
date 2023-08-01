@@ -35,8 +35,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       onGenerateRoute: MyRouter.generateRoute,
-      debugShowCheckedModeBanner: false,
       initialRoute: '/',
+      debugShowCheckedModeBanner: false,
       title: 'Simpad',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simpad_flutter/pages/ActionPage.dart';
 import 'package:simpad_flutter/pages/Chart.dart';
 import 'package:simpad_flutter/pages/dashboard.dart';
 
@@ -35,7 +36,13 @@ class _NavigateState extends State<Navigate> {
           color: Colors.white,
         ),
         onPressed: () {
-          Navigator.pushNamed(context, "/tambahpenitipan");
+          // NavigationPage
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return ActionPage();
+            }),
+          );
         },
         backgroundColor: Color.fromARGB(255, 3, 95, 170),
       ),

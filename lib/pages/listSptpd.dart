@@ -31,7 +31,7 @@ class _ListSptpdState extends State<ListSptpd> {
       headers: {"Content-Type": "application/x-www-form-urlencoded"},
       body: {"loginid": wpid},
     );
-    // print("response ${wpid}");
+    print("response ${resdata}");
     return List<Map<String, dynamic>>.from(json.decode(resdata.body));
   }
 
@@ -239,7 +239,9 @@ class _ListSptpdState extends State<ListSptpd> {
                                                                     .white)),
                                                         onPressed: () => {
                                                               routePrint(
-                                                                  context)
+                                                                  context,
+                                                                  row['id']
+                                                                      .toString())
                                                             }
                                                         //Navigate To Login
 
@@ -391,8 +393,9 @@ class _ListSptpdState extends State<ListSptpd> {
   }
 }
 
-routePrint(BuildContext context) {
-  Route route = MaterialPageRoute(builder: (context) => TandaTerima());
+routePrint(BuildContext context, String id) {
+  Route route =
+      MaterialPageRoute(builder: (context) => TandaTerima(paramid: id));
   Navigator.push(context, route);
 }
 

@@ -1,18 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simpad_flutter/components/menu.dart';
 import 'package:simpad_flutter/pages/login.dart';
+import 'package:simpad_flutter/utils/middleware.dart';
 import '../components/menuitems.dart';
 import 'package:flutter_charts/flutter_charts.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
-
   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
 class _DashboardState extends State<Dashboard> {
   @override
+  String getusername = '';
+  String getpajakname = '';
+  Future<String?> _username() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String getlisusername = pref.getString('username').toString();
+    String getpajakname = pref.getString('pajakname').toString();
+
+    setState(() {
+      getusername = getlisusername;
+      getpajakname = getpajakname;
+    });
+  }
+
+  void initState() {
+    super.initState();
+    _username();
+  }
+
   final tglsekarang = DateTime.now();
 
   Widget build(BuildContext context) {
@@ -25,7 +44,7 @@ class _DashboardState extends State<Dashboard> {
               alignment: AlignmentDirectional.center,
               children: [
                 background_container(context),
-                Positioned(top: 120, child: main_container()),
+                Positioned(top: 120, child: main_container(getusername)),
               ],
             ),
             SizedBox(height: 12.0),
@@ -198,7 +217,7 @@ class _DashboardState extends State<Dashboard> {
   }
   // Rest of your code...
 
-  Container main_container() {
+  Container main_container(getusername) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -216,16 +235,16 @@ class _DashboardState extends State<Dashboard> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                ' P12342423422',
+                getusername,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(width: 10),
               Text(
-                'PAJAK :',
+                'PAJAK: ' + getpajakname,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                ' HOTEL',
+                '',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
@@ -292,17 +311,22 @@ class _DashboardState extends State<Dashboard> {
 
                     GestureDetector(
                       onTap: () {
-                        // Navigator.of(context).pop();
-                        Route route = MaterialPageRoute(
-                            builder: (context) => const Login());
-
-                        Navigator.push(context, route);
+                        _showConfirmDeleteDialog(context);
                       },
-                      child: Container(
-                        color: Colors.green,
-                        child: Icon(
-                          Icons.login_outlined,
-                          color: Colors.white,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * 0.12,
+                          height: MediaQuery.of(context).size.height * 0.04,
+                          decoration: BoxDecoration(
+                            color: Colors.cyan,
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100)),
+                          ),
+                          child: Icon(
+                            Icons.login_outlined,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -315,7 +339,7 @@ class _DashboardState extends State<Dashboard> {
                 children: [
                   SizedBox(width: 20),
                   Text(
-                    'Hy Rian Welcome',
+                    'Dashboard Panel',
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: 'tahoma',
@@ -328,6 +352,46 @@ class _DashboardState extends State<Dashboard> {
           ),
         ),
       ],
+    );
+  }
+
+  _logout() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.setString('username', '');
+    pref.setString('userid', '');
+    pref.setString('pajakname', '');
+  }
+
+  Future<void> _showConfirmDeleteDialog(BuildContext context) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Confirm'),
+          content: Text('Anda Yakin ?'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+              },
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                // Perform the delete operation here
+                _logout();
+                Navigator.of(context).pop();
+                Route route =
+                    MaterialPageRoute(builder: (context) => const Login());
+                Navigator.push(context, route);
+
+                // Close the dialog
+              },
+              child: Text('Ok', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
     );
   }
 }

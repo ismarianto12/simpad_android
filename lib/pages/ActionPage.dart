@@ -49,7 +49,7 @@ class _ActionPageState extends State<ActionPage>
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         image: NetworkImage(
-                            "https://w0.peakpx.com/wallpaper/135/359/HD-wallpaper-ios-13-apple-2019-green-gradient-abstract.jpg"),
+                            "https://img.freepik.com/premium-vector/smartphone-ui-ux-design-concept-application_73903-155.jpg"),
                         fit: BoxFit.fill,
                         alignment: Alignment.topCenter,
                       ),

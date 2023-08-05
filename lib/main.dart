@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simpad_flutter/components/navigate.dart';
 import 'package:simpad_flutter/pages/login.dart';
 import 'package:simpad_flutter/route.dart';
@@ -18,11 +19,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _loginid = "";
 
-  Future _initialogin() async {
-    final String loginid = await Middleware.getParams("loginid");
-    setState(() {
-      _loginid = loginid;
-    });
+  Future<String?> _initialogin() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('userid');
   }
 
   @override
@@ -43,7 +42,16 @@ class _MyAppState extends State<MyApp> {
             seedColor: const Color.fromARGB(255, 255, 255, 255)),
         // useMaterial3: true,
       ),
-      home: _loginid != null ? Navigate() : Login(),
+      home: FutureBuilder<String?>(
+        future: _initialogin(),
+        builder: (BuildContext context, AsyncSnapshot<String?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Navigate();
+          } else {
+            return Login();
+          }
+        },
+      ),
     );
   }
 }

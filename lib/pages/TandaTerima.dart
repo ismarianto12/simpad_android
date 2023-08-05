@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
+import 'package:simpad_flutter/env.dart';
 
 class TandaTerima extends StatefulWidget {
+  final String paramid;
+  TandaTerima({required this.paramid});
+
   @override
   _TandaTerima createState() => _TandaTerima();
 }
@@ -11,6 +15,8 @@ class _TandaTerima extends State<TandaTerima> {
 
   @override
   void initState() {
+    print(APP_API + '/v1/api/tandaterima/' + widget.paramid);
+
     super.initState();
   }
 
@@ -33,7 +39,7 @@ class _TandaTerima extends State<TandaTerima> {
         ],
       ),
       body: SfPdfViewer.network(
-        'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf',
+        APP_API + '/v1/api/tandaterima/${widget.paramid}',
         key: _pdfViewerKey,
       ),
     );

@@ -29,6 +29,34 @@ class _LoginState extends State<Login> {
     }
   }
 
+  void _showLoadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Row(
+            children: [Text('Loading...'), CircularProgressIndicator()],
+          ),
+        );
+      },
+    );
+  }
+
+  void _hideLoadingDialog() {
+    if (_isDialogShowing) {
+      Navigator.of(context).pop();
+      setState(() {
+        _isDialogShowing = false;
+      });
+    }
+  }
+
+  void _cancel() {
+    _usernameController.text = "";
+    _passwordController.text = "";
+  }
+
   void _submitForm() async {
     if (_formKey.currentState!.validate()) {
       Middleware.checkCon(context);
@@ -37,23 +65,25 @@ class _LoginState extends State<Login> {
         _isLoading = true;
       });
 
+      _showLoadingDialog();
       var url = Uri.parse('${APP_API}/v1/api/apilogin');
       var response = await http.post(url, body: {
         'username': _usernameController.text,
         'password': _passwordController.text,
       });
-      // print("Status code ${response.body}");
+      print("Status code ${response.body}");
 
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body);
 
         var token = jsonResponse['token'];
         var userid = jsonResponse['userid'].toString();
-        // print("user : ${userid}");
+        var pajakname = jsonResponse['pajakname'].toString();
 
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString("username", _usernameController.text);
         pref.setString("userid", userid);
+        pref.setString("pajakname", pajakname);
 
         if (!_isDialogShowing) {
           setState(() {
@@ -71,7 +101,6 @@ class _LoginState extends State<Login> {
               },
             ),
           );
-
           ScaffoldMessenger.of(context).showSnackBar(snackBar);
           Navigator.pushNamedAndRemoveUntil(
               context, '/dashboard_panel', (route) => false);
@@ -79,6 +108,10 @@ class _LoginState extends State<Login> {
       } else {
         setState(() {
           _isLoading = false;
+        });
+        Navigator.of(context).pop();
+        setState(() {
+          _isDialogShowing = false;
         });
         showDialog(
           context: context,
@@ -130,6 +163,7 @@ class _LoginState extends State<Login> {
                       width: 150,
                     ),
                     SizedBox(height: 10),
+                    if (_isLoading) CircularProgressIndicator(),
                     const Text(
                       'SIMPATDA',
                       style: TextStyle(
@@ -340,7 +374,7 @@ class _LoginState extends State<Login> {
                                         },
                                       ),
                                     ),
-                                    onPressed: () => null,
+                                    onPressed: () => _cancel(),
                                     child: Text('Batal',
                                         style: TextStyle(color: Colors.white))),
                               ),

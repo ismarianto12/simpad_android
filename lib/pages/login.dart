@@ -191,14 +191,16 @@ class _LoginState extends State<Login> {
                   Form(
                     key: _formKey,
                     child: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           TextFormField(
                             controller: _usernameController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
+                              contentPadding:
+                                  EdgeInsets.symmetric(vertical: 20.0),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 1,
@@ -219,23 +221,14 @@ class _LoginState extends State<Login> {
                                   139,
                                 ),
                               ),
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: const Color.fromARGB(
-                                    255,
-                                    140,
-                                    139,
-                                    139,
-                                  ),
-                                ),
-                              ),
+                              border: OutlineInputBorder(),
                               fillColor: const Color.fromARGB(
                                 255,
                                 140,
                                 139,
                                 139,
                               ),
-                              hintText: 'Username / Npwpd',
+                              hintText: 'Username atau Npwpd',
                               hintStyle: TextStyle(
                                 color: const Color.fromARGB(
                                   255,
@@ -257,6 +250,8 @@ class _LoginState extends State<Login> {
                             controller: _passwordController,
                             obscureText: true,
                             decoration: InputDecoration(
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 10.0),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 1,
@@ -325,7 +320,7 @@ class _LoginState extends State<Login> {
                                         RoundedRectangleBorder>(
                                       RoundedRectangleBorder(
                                         borderRadius: BorderRadius.circular(
-                                            20.0), // Adjust the radius as needed
+                                            10.0), // Adjust the radius as needed
                                       ),
                                     ),
                                     backgroundColor:
@@ -358,7 +353,7 @@ class _LoginState extends State<Login> {
                                           RoundedRectangleBorder>(
                                         RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(
-                                              20.0), // Adjust the radius as needed
+                                              10.0), // Adjust the radius as needed
                                         ),
                                       ),
                                       backgroundColor:

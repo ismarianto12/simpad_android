@@ -43,6 +43,7 @@ dependencies:
   pdf_viewer_plugin: ^2.0.1
   webview_flutter: ^3.0.0
   syncfusion_flutter_pdfviewer: ^20.4.54
+  unicons: ^2.1.1
 
 
 dev_dependencies:

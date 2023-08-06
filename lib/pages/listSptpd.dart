@@ -38,6 +38,7 @@ class _ListSptpdState extends State<ListSptpd> {
   @override
   void initState() {
     super.initState();
+
     fetchData().then((data) {
       setState(() {
         _loading = false;
@@ -76,6 +77,8 @@ class _ListSptpdState extends State<ListSptpd> {
 
   @override
   Widget build(BuildContext context) {
+    print(_data);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -240,7 +243,7 @@ class _ListSptpdState extends State<ListSptpd> {
                                                         onPressed: () => {
                                                               routePrint(
                                                                   context,
-                                                                  row['id']
+                                                                  row['id_esptpd']
                                                                       .toString())
                                                             }
                                                         //Navigate To Login
@@ -293,8 +296,8 @@ class _ListSptpdState extends State<ListSptpd> {
                                                       onPressed: () => {
                                                         routeEdit(
                                                             context,
-                                                            row['id'] ??
-                                                                row['id'])
+                                                            row['id_esptpd'] ??
+                                                                row['id_esptpd'])
                                                       },
                                                       child: Text('Edit',
                                                           style: TextStyle(

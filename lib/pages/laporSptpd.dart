@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simpad_flutter/env.dart';
+import 'package:simpad_flutter/pages/DownloadScreen.dart';
 import 'package:simpad_flutter/utils/middleware.dart';
 import 'dart:convert';
 
@@ -35,9 +37,12 @@ class _LaporSptpdState extends State<LaporSptpd> {
   TextEditingController _instruksiKhususController = TextEditingController();
   TextEditingController _tahunController = TextEditingController();
 
+  bool _loading = false;
+
   @override
   void initState() {
     super.initState();
+    int currentyear = DateTime.now().year;
 
     if (widget!.idspt != null) {
       _CallApi(widget.idspt);
@@ -52,11 +57,22 @@ class _LaporSptpdState extends State<LaporSptpd> {
     }
     // print("spt id ${widget.idspt}");
     print("Add action");
+    _username();
+    _tahunController.text = currentyear.toString();
+  }
 
-    _tahunController.text = "2023";
+  Future<String?> _username() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    String getlisusername = pref.getString('username').toString();
+    setState(() {
+      npwpd = getlisusername;
+    });
   }
 
   String? filePath;
+  String? serverFile;
+  String? npwpd;
+
   String? filename;
   String? selectedMonth;
   String? _action;
@@ -86,23 +102,63 @@ class _LaporSptpdState extends State<LaporSptpd> {
     'December',
   ];
 
+  void _showLoadingDialog() {
+    if (_loading)
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Row(
+              children: [
+                Text('Loading...'),
+                SizedBox(
+                  width: 30,
+                ),
+                CircularProgressIndicator()
+              ],
+            ),
+          );
+        },
+      );
+  }
+
+  void _hideLoadingDialog() {
+    if (_loading) {
+      Navigator.of(context).pop();
+      setState(() {
+        _loading = false;
+      });
+    }
+  }
+
   Future<void> _CallApi(idspt) async {
     String idwp = await Middleware.getParams("userid");
-    final url = Uri.parse(APP_API + '/v1/api/sptpd/edit');
-    http.Response res = await http.post(
+    final url = Uri.parse(APP_API + '/v1/api/sptpd/edit'); //v1/api
+
+    var res = await http.post(
       url,
-      body: {"login": idwp, "idspt": widget.idspt.toString()},
+      body: {"wpid": idwp, "sptpdid": idspt.toString()},
     );
-    print('asda');
+
+    // print({"wpid": idwp, "sptpdid": idspt.toString()});
     print(res.body);
+
     if (res.statusCode == 200) {
       int currentyear = DateTime.now().year;
+      var respondata = jsonDecode(res.body);
+
+      String datetime = respondata['tanggal_lapor'];
+      List<String> lisdata = datetime.split("-");
+      String month = lisdata[2];
+
       setState(() {
         _action = "edit";
+        serverFile = respondata['bukti_bayar'].toString();
         _nomorTeleponController.text = "0"; // Convert int to string
-        _omsetController.text = "981312";
-        _jumlahLaporController.text = "";
-        _instruksiKhususController.text = "";
+        _omsetController.text = respondata['omset'].toString();
+        _jumlahLaporController.text = respondata["jumlah"].toString();
+        _instruksiKhususController.text = respondata["keterangan"].toString();
         _tahunController.text = currentyear.toString();
       });
     } else {
@@ -133,9 +189,11 @@ class _LaporSptpdState extends State<LaporSptpd> {
   void _simpanData() async {
     String username = await Middleware.getParams("username");
     String wpid = await Middleware.getParams("userid");
-
+    _hideLoadingDialog();
     print("userid ${wpid}");
     if (_formKey.currentState!.validate()) {
+      _showLoadingDialog();
+
       String apiUrl = APP_API +
           '/v1/api/sptpd/simpanSptpd'; // Replace with your API endpoint
       var request = http.MultipartRequest('POST', Uri.parse(apiUrl));
@@ -153,11 +211,15 @@ class _LaporSptpdState extends State<LaporSptpd> {
         request.files.add(await http.MultipartFile.fromPath('file', filePath!));
       } else {
         // Handle the case when `filePath` is null
+        _hideLoadingDialog();
+        setState(() {
+          _loading = false;
+        });
       }
       final response = await request.send();
       String responseBody =
           await response.stream.transform(utf8.decoder).join();
-      print("response ${responseBody}");
+      print("response ${response.statusCode}");
       if (response.statusCode == 200) {
         final snackBar = SnackBar(
           content: const Text('Data Data Pad Berhasil di laporkan'),
@@ -166,6 +228,9 @@ class _LaporSptpdState extends State<LaporSptpd> {
         Navigator.pushNamedAndRemoveUntil(
             context, '/dashboard_panel', (route) => false);
       } else {
+        setState(() {
+          _loading = false;
+        });
         SnackBar(
           content: const Text('Gagal menyimpan data'),
         );
@@ -418,6 +483,23 @@ class _LaporSptpdState extends State<LaporSptpd> {
                                 style: TextStyle(color: Colors.white)),
                           ),
                         ),
+
+                        SizedBox(height: 10),
+                        if (_action == 'edit')
+                          GestureDetector(
+                            child: Text('Download file'),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      DownloadScreen(
+                                          Npwpd: npwpd, serverFile: serverFile),
+                                ),
+                              );
+                            },
+                          ),
+
                         SizedBox(height: 5),
                         Text(
                           "File name : " + filename.toString(),

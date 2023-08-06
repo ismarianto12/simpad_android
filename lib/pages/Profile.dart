@@ -64,6 +64,8 @@ class _ProfileState extends State<Profile> {
     String getlisusername = pref.getString('username').toString();
     String getpajakname = pref.getString('pajakname').toString();
 
+    _npwpdController.text = getlisusername;
+
     setState(() {
       getusername = getlisusername;
       getpajakname = getpajakname;
@@ -73,9 +75,7 @@ class _ProfileState extends State<Profile> {
   @override
   void initState() {
     super.initState();
-    var data = getProfile();
     _username();
-    _npwpdController.text = getusername.toString();
   }
 
   _cancel() {
@@ -187,6 +187,7 @@ class _ProfileState extends State<Profile> {
                                           139,
                                         ),
                                         hintText: 'NPWPD',
+                                        enabled: false,
                                         hintStyle: TextStyle(
                                           color: const Color.fromARGB(
                                             255,

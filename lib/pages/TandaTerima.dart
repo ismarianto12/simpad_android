@@ -15,16 +15,16 @@ class _TandaTerima extends State<TandaTerima> {
 
   @override
   void initState() {
-    print(APP_API + '/v1/api/tandaterima/' + widget.paramid);
-
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(APP_API + '/v1/api/tandaterima/' + widget.paramid);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tanda Terima'),
+        title: Text('Tanda Terima ${widget.paramid}'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(

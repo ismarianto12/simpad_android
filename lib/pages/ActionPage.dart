@@ -43,8 +43,6 @@ class _ActionPageState extends State<ActionPage>
               Stack(
                 children: [
                   Container(
-                    // width: double.infinity,
-                    // height: double.infinity,
                     height: MediaQuery.of(context).size.height * 0.35,
                     decoration: BoxDecoration(
                       image: DecorationImage(
@@ -93,21 +91,34 @@ class _ActionPageState extends State<ActionPage>
                             SizedBox(height: 20),
                             Padding(
                               padding: const EdgeInsets.all(12.0),
-                              child: Card(
-                                child: ListTile(
-                                  title: Text("Bayar Pajak"),
-                                  subtitle: Text('Klik untuk bayar pajak'),
-                                  trailing: Icon(Icons.arrow_forward_ios),
+                              child: GestureDetector(
+                                onTap: () {
+                                  //navigate to sptpd without remove
+                                  Navigator.of(context)
+                                      .pushNamed('/lapor_sptpd');
+                                },
+                                child: Card(
+                                  child: ListTile(
+                                    title: Text("Bayar Pajak"),
+                                    subtitle: Text('Klik untuk bayar pajak'),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                  ),
                                 ),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(12.0),
-                              child: Card(
-                                child: ListTile(
-                                  title: Text("Cetak Tanda Terima Pajak"),
-                                  subtitle: Text('Klik untuk bayar pajak'),
-                                  trailing: Icon(Icons.arrow_forward_ios),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context)
+                                      .pushNamed('/list_sptpd');
+                                },
+                                child: Card(
+                                  child: ListTile(
+                                    title: Text("Cetak Tanda Terima Pajak"),
+                                    subtitle: Text('Klik untuk bayar pajak'),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                  ),
                                 ),
                               ),
                             ),

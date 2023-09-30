@@ -1,0 +1,10 @@
+if this can't shown detail 
+
+Ctrl+Shift+U
+
+Cmd+Shift+U
+apk reduce debug compiler --- 
+
+
+flutter build apk --split-per-abi
+

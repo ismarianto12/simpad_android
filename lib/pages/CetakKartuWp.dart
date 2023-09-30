@@ -6,15 +6,15 @@ import 'package:simpad_flutter/env.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
-class TandaTerima extends StatefulWidget {
+class CetakKartuWp extends StatefulWidget {
   final String paramid;
-  TandaTerima({required this.paramid});
+  CetakKartuWp({required this.paramid});
 
   @override
-  _TandaTerima createState() => _TandaTerima();
+  _CetakKartuWp createState() => _CetakKartuWp();
 }
 
-class _TandaTerima extends State<TandaTerima> {
+class _CetakKartuWp extends State<CetakKartuWp> {
   final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
 
   @override
@@ -24,12 +24,12 @@ class _TandaTerima extends State<TandaTerima> {
 
   void _downloadPdf() async {
     var response = await http.get(
-      Uri.parse(APP_API + '/v1/api/tandaterima/${widget.paramid}'),
+      Uri.parse(APP_API + '/v1/api/sptpd/cetak_kartu/${widget.paramid}'),
     );
 
     if (response.statusCode == 200) {
       var dir = await getTemporaryDirectory();
-      File file = File("${dir.path}/tanda_terima.pdf");
+      File file = File("${dir.path}/KartuWajibPajak.pdf");
       await file.writeAsBytes(response.bodyBytes);
 
       ScaffoldMessenger.of(context).showSnackBar(
@@ -44,11 +44,9 @@ class _TandaTerima extends State<TandaTerima> {
 
   @override
   Widget build(BuildContext context) {
-    print(APP_API + '/v1/api/tandaterima/' + widget.paramid);
-
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tanda Terima ${widget.paramid}'),
+        title: Text('Kartu Wajib Pajak'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(
@@ -71,7 +69,7 @@ class _TandaTerima extends State<TandaTerima> {
         ],
       ),
       body: SfPdfViewer.network(
-        APP_API + '/v1/api/tandaterima/${widget.paramid}',
+        APP_API + '/v1/api/sptpd/cetak_kartu/${widget.paramid}',
         key: _pdfViewerKey,
       ),
     );

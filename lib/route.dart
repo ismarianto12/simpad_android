@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:simpad_flutter/pages/DaftarWp.dart';
+import 'package:simpad_flutter/pages/LupaPass.dart';
 import 'package:simpad_flutter/pages/Profile.dart';
 import 'package:simpad_flutter/pages/RiwayatBayar.dart';
 import 'package:simpad_flutter/pages/dashboard.dart';
@@ -26,6 +27,11 @@ class MyRouter {
         return MaterialPageRoute(builder: (_) => Login());
       case '/daftarwp':
         return MaterialPageRoute(builder: (_) => DaftarWp());
+      case '/lupapass':
+        return MaterialPageRoute(builder: (_) => LupaPass());
+
+      // case '/updateprofile':
+      // return MaterialPageRoute(builder: (_) => UpdateProfile());
 
       case '/riwayat_bayar':
         return MaterialPageRoute(builder: (_) => RiwayatBayar());

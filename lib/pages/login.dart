@@ -36,7 +36,16 @@ class _LoginState extends State<Login> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Row(
-            children: [Text('Loading...'), CircularProgressIndicator()],
+            children: [
+              Text(
+                'Loading...',
+                style: TextStyle(fontWeight: FontWeight.w200),
+              ),
+              SizedBox(
+                width: 30,
+              ),
+              CircularProgressIndicator()
+            ],
           ),
         );
       },
@@ -163,7 +172,7 @@ class _LoginState extends State<Login> {
                       width: 150,
                     ),
                     SizedBox(height: 10),
-                    if (_isLoading) CircularProgressIndicator(),
+                    // if (_isLoading) CircularProgressIndicator(),
                     const Text(
                       'SIMPATDA',
                       style: TextStyle(
@@ -386,6 +395,23 @@ class _LoginState extends State<Login> {
                               style: TextStyle(
                                 fontSize: 14,
                                 color: const Color.fromARGB(255, 0, 0, 0),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushNamedAndRemoveUntil(
+                                  context, '/lupapass', (route) => false);
+                            },
+                            child: Text(
+                              'Lupa Password ? ',
+                              style: TextStyle(
+                                // color : ,
+                                fontSize: 14,
+                                color: Color.fromARGB(255, 10, 157, 215),
                               ),
                             ),
                           ),

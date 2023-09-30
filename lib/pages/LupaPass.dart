@@ -9,14 +9,14 @@ import 'package:simpad_flutter/env.dart';
 import 'dart:convert';
 import 'dart:io';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class LupaPass extends StatefulWidget {
+  const LupaPass({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<LupaPass> createState() => _LupaPassState();
 }
 
-class _ProfileState extends State<Profile> {
+class _LupaPassState extends State<LupaPass> {
   final _konfirmasiPassword = TextEditingController();
   final _passwordController = TextEditingController();
   final _emailController = TextEditingController();
@@ -153,7 +153,7 @@ class _ProfileState extends State<Profile> {
                                   size: 30,
                                 ),
                                 Text(
-                                  "Edit Password",
+                                  "Lupa Password : ",
                                   style: TextStyle(
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
@@ -177,7 +177,7 @@ class _ProfileState extends State<Profile> {
                                       controller: _npwpdController,
                                       // disab
                                       decoration: InputDecoration(
-                                        labelText: 'NPWPD',
+                                        labelText: 'Passowrd Lama',
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(20),
@@ -193,7 +193,7 @@ class _ProfileState extends State<Profile> {
                                           ),
                                         ),
                                         prefixIcon: Icon(
-                                          Icons.type_specimen_sharp,
+                                          Icons.supervised_user_circle_sharp,
                                           color: const Color.fromARGB(
                                             255,
                                             140,
@@ -220,7 +220,7 @@ class _ProfileState extends State<Profile> {
                                           139,
                                           139,
                                         ),
-                                        hintText: 'NPWPD / Username',
+                                        hintText: 'Passowrd Baru',
                                         hintStyle: TextStyle(
                                           color: const Color.fromARGB(
                                             255,
@@ -244,7 +244,7 @@ class _ProfileState extends State<Profile> {
                                       obscureText: true,
                                       //
                                       decoration: InputDecoration(
-                                        labelText: 'Password',
+                                        labelText: 'Konfirmasi Password',
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(20),
@@ -260,7 +260,7 @@ class _ProfileState extends State<Profile> {
                                           ),
                                         ),
                                         prefixIcon: Icon(
-                                          Icons.type_specimen_sharp,
+                                          Icons.password,
                                           color: const Color.fromARGB(
                                             255,
                                             140,
@@ -325,7 +325,7 @@ class _ProfileState extends State<Profile> {
                                           ),
                                         ),
                                         prefixIcon: Icon(
-                                          Icons.type_specimen_sharp,
+                                          Icons.password_outlined,
                                           color: const Color.fromARGB(
                                             255,
                                             140,

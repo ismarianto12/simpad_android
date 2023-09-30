@@ -55,6 +55,16 @@ class _RiwayatBayarState extends State<RiwayatBayar>
                       ),
                     ),
                   ),
+                  Positioned(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Icon(
+                        Icons.arrow_back_ios,
+                        color: Colors.white,
+                      ),
+                    ),
+                    top: 20.0,
+                  ),
                   Padding(
                     padding: EdgeInsets.only(
                         top: MediaQuery.of(context).size.height * 0.26),

@@ -44,7 +44,8 @@ dependencies:
   webview_flutter: ^3.0.0
   syncfusion_flutter_pdfviewer: ^20.4.54
   unicons: ^2.1.1
-
+  path_provider: ^2.0.6
+  fl_chart: ^0.40.0  
 
 dev_dependencies:
   flutter_test:

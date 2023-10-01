@@ -9,6 +9,8 @@ import 'package:simpad_flutter/env.dart';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:unicons/unicons.dart';
+
 class LupaPass extends StatefulWidget {
   const LupaPass({super.key});
 
@@ -177,7 +179,7 @@ class _LupaPassState extends State<LupaPass> {
                                       controller: _npwpdController,
                                       // disab
                                       decoration: InputDecoration(
-                                        labelText: 'Passowrd Lama',
+                                        labelText: 'Email',
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(20),
@@ -193,7 +195,7 @@ class _LupaPassState extends State<LupaPass> {
                                           ),
                                         ),
                                         prefixIcon: Icon(
-                                          Icons.supervised_user_circle_sharp,
+                                          UniconsLine.envelope,
                                           color: const Color.fromARGB(
                                             255,
                                             140,
@@ -244,7 +246,7 @@ class _LupaPassState extends State<LupaPass> {
                                       obscureText: true,
                                       //
                                       decoration: InputDecoration(
-                                        labelText: 'Konfirmasi Password',
+                                        labelText: 'NPWPD',
                                         enabledBorder: OutlineInputBorder(
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(20),
@@ -260,7 +262,7 @@ class _LupaPassState extends State<LupaPass> {
                                           ),
                                         ),
                                         prefixIcon: Icon(
-                                          Icons.password,
+                                          UniconsLine.user,
                                           color: const Color.fromARGB(
                                             255,
                                             140,
@@ -408,51 +410,14 @@ class _LupaPassState extends State<LupaPass> {
                                               ),
                                             ),
                                             onPressed: () => _submitForm(),
-                                            child: Text('Simpan',
+                                            child: Text(
+                                                'Kirim Kode Verifikasi.',
                                                 style: TextStyle(
                                                     color: Colors.white)),
                                           ),
                                         ),
                                         SizedBox(
                                           height: 10,
-                                        ),
-                                        Container(
-                                          height: 35,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.99,
-                                          child: ElevatedButton(
-                                              style: ButtonStyle(
-                                                shape:
-                                                    MaterialStateProperty.all<
-                                                        RoundedRectangleBorder>(
-                                                  RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                      Radius.circular(20),
-                                                    ), // Adjust the radius as needed
-                                                  ),
-                                                ),
-                                                backgroundColor:
-                                                    MaterialStateColor
-                                                        .resolveWith(
-                                                  (states) {
-                                                    if (states.contains(
-                                                        MaterialState
-                                                            .pressed)) {
-                                                      return Colors
-                                                          .red; // Color when the button is pressed.
-                                                    }
-                                                    return Colors
-                                                        .blue; // Default color for the button.
-                                                  },
-                                                ),
-                                              ),
-                                              onPressed: () => _cancel(),
-                                              child: Text('Batal',
-                                                  style: TextStyle(
-                                                      color: Colors.white))),
                                         ),
                                       ],
                                     ),

@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_charts/flutter_charts.dart';
+import 'package:simpad_flutter/utils/middleware.dart';
 import 'dart:io';
-
+import 'dart:convert';
+import 'package:unicons/unicons.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:http/http.dart' as http;
+import '../env.dart';
 
 class RiwayatBayar extends StatefulWidget {
   const RiwayatBayar({Key? key}) : super(key: key);
@@ -14,15 +18,30 @@ class RiwayatBayar extends StatefulWidget {
 class _RiwayatBayarState extends State<RiwayatBayar>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
+  List<Map<String, dynamic>> _data = [];
+
+  Future<List<Map<String, dynamic>>> fgetchData() async {
+    String wpdid = await Middleware.getParams("userid");
+    var url = Uri.parse(APP_API + "/v1/api/sptpd/apiSptpd");
+    http.Response resdata = await http.post(
+      url,
+      headers: {"Content-Type": "application/x-www-form-urlencoded"},
+      body: {"loginid": wpdid},
+    );
+    // print('Response Data: ${resdata.body}');
+
+    return List<Map<String, dynamic>>.from(json.decode(resdata.body));
+  }
 
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    fgetchData().then((data) {
+      setState(() {
+        _data = data; // Menggunakan assignment =, bukan _data: data;
+      });
+      print('Data from API: $_data');
+    });
   }
 
   @override
@@ -82,72 +101,67 @@ class _RiwayatBayarState extends State<RiwayatBayar>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             SizedBox(height: 12),
-                            Text(
-                              'Data Bayar PAD',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 26,
-                                color: Color.fromARGB(255, 0, 0, 0),
-                              ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  UniconsLine.list_ui_alt,
+                                  size: 30,
+                                ),
+                                Text(
+                                  'Data Bayar PAD',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 26,
+                                    color: Color.fromARGB(255, 0, 0, 0),
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
                               height: 20,
                             ),
-                            Card(
-                              child: ListTile(
-                                title: Text('Hotel'),
-                                subtitle: Text('Lorem lipsum'),
+                            // Center(
+                            //   child: Text("${_data}"),
+                            // ),
+
+                            for (var item in _data)
+                              Card(
+                                child: ListTile(
+                                  title: Text(
+                                      item['ntb']?.toString() ?? 'No Data'),
+                                  trailing: Text(item["keterangan"]),
+                                ),
                               ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                title: Text('Restoran'),
-                                subtitle: Text('Lorem lipsum'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                title: Text('Hiburan'),
-                                subtitle: Text('Lorem lipsum'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                title: Text('Reklame'),
-                                subtitle: Text('Lorem lipsum'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                title: Text('Penerangan Jalan'),
-                                subtitle: Text('Lorem lipsum'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                title: Text('Parkir'),
-                                subtitle: Text('Lorem Lipsum'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                title: Text('Sarang Burung Walet'),
-                                subtitle: Text('Lorem lipsum'),
-                              ),
-                            ),
-                            Card(
-                              child: ListTile(
-                                title: Text('Lorem lipsum'),
-                                subtitle: Text('Pajak Bumi'),
-                              ),
-                            ),
+                            // ListView.builder(
+                            //   itemCount: _data.length,
+                            //   itemBuilder: (context, index) {
+                            //     final item = _data[index];
+                            //     final ntb = item['ntb'];
+                            //     return ListTile(
+                            //       title: Text(ntb?.toString() ?? 'No Data'),
+                            //     );
+                            //   },
+                            // )
+                            // Expanded(
+                            //   child: Row(
+                            //     children: [
+                            //       for (var item in _data)
+                            //         ListTile(
+                            //           title: Text(
+                            //               item['ntb']?.toString() ?? 'No Data'),
+                            //         ),
+                            //     ],
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
@@ -155,3 +169,6 @@ class _RiwayatBayarState extends State<RiwayatBayar>
     );
   }
 }
+
+@override
+void dispose() {}

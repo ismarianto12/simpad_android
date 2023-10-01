@@ -92,7 +92,7 @@ class _LoginState extends State<Login> {
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString("username", _usernameController.text);
         pref.setString("userid", userid);
-        pref.setString("pajakname", pajakname);
+        pref.setString("pajakname", pajakname.toString());
 
         if (!_isDialogShowing) {
           setState(() {

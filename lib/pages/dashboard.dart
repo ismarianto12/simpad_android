@@ -18,12 +18,12 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   @override
   String getusername = '';
-  var getpajakname = '';
+  String getpajakname = '';
 
   Future<String?> _username() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     String getlisusername = pref.getString('username').toString();
-    var getpajakname = pref.getString('pajakname');
+    String getpajakname = pref.getString("pajakname").toString();
 
     setState(() {
       getusername = getlisusername;
@@ -31,6 +31,7 @@ class _DashboardState extends State<Dashboard> {
     });
   }
 
+  @override
   void initState() {
     super.initState();
     _username();
@@ -49,7 +50,8 @@ class _DashboardState extends State<Dashboard> {
               alignment: AlignmentDirectional.center,
               children: [
                 background_container(context),
-                Positioned(top: 120, child: main_container(getusername)),
+                Positioned(
+                    top: 120, child: main_container(getusername, getpajakname)),
               ],
             ),
             Stack(
@@ -81,7 +83,7 @@ class _DashboardState extends State<Dashboard> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      height: 149,
+                      height: 130,
                     ),
                     Icon(
                       UniconsLine.user_exclamation,
@@ -327,7 +329,7 @@ class _DashboardState extends State<Dashboard> {
   }
   // Rest of your code...
 
-  Container main_container(getusername) {
+  Container main_container(getusername, pajakname) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
@@ -348,13 +350,8 @@ class _DashboardState extends State<Dashboard> {
                 getusername,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              SizedBox(width: 10),
               Text(
-                getpajakname.toString(),
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '',
+                pajakname,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ],

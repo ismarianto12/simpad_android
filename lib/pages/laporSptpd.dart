@@ -505,7 +505,7 @@ class _LaporSptpdState extends State<LaporSptpd> {
                                     // ),
                                     //  SizedBox(height: 20),
                                     TextFormField(
-                                      // keyboardType: TextInputType.number,
+                                      keyboardType: TextInputType.number,
                                       controller: _omsetController,
                                       decoration: InputDecoration(
                                         labelText: 'Omset Per Bulan',

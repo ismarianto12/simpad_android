@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simpad_flutter/components/navigate.dart';
-import 'package:simpad_flutter/env.dart';
-import 'package:simpad_flutter/pages/DownloadScreen.dart';
-import 'package:simpad_flutter/utils/middleware.dart';
+import 'package:presensi_app/components/navigate.dart';
+import 'package:presensi_app/env.dart';
+import 'package:presensi_app/pages/DownloadScreen.dart';
+import 'package:presensi_app/utils/middleware.dart';
 import 'dart:convert';
 
 import '../../components/Datepicker.dart';

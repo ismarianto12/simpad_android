@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import "package:http/http.dart" as http;
-import 'package:simpad_flutter/env.dart';
-import 'package:simpad_flutter/utils/middleware.dart';
+import 'package:presensi_app/env.dart';
+import 'package:presensi_app/utils/middleware.dart';
 
 class Service {
   static Future<List<dynamic>> profile() async {

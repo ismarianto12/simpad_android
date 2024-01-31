@@ -2,9 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:simpad_flutter/env.dart';
+import 'package:presensi_app/components/SliderDepan.dart';
+import 'package:presensi_app/env.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simpad_flutter/utils/middleware.dart';
+import 'package:presensi_app/utils/middleware.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -35,17 +36,21 @@ class _LoginState extends State<Login> {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Row(
-            children: [
-              Text(
-                'Loading...',
-                style: TextStyle(fontWeight: FontWeight.w200),
-              ),
-              SizedBox(
-                width: 30,
-              ),
-              CircularProgressIndicator()
-            ],
+          title: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Please wait.',
+                  style: TextStyle(fontWeight: FontWeight.w200),
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                CircularProgressIndicator()
+              ],
+            ),
           ),
         );
       },
@@ -70,24 +75,23 @@ class _LoginState extends State<Login> {
     if (_formKey.currentState!.validate()) {
       Middleware.checkCon(context);
 
-      setState(() {
-        _isLoading = true;
-      });
+      String username = _usernameController.text;
+      // setState(() {
+      //   _isLoading = true;
+      // });
+      // _showLoadingDialog();
+      // var url = Uri.parse('${APP_API}/v1/api/apilogin');
+      // var response = await http.post(url, body: {
+      //   'username': _usernameController.text,
+      //   'password': _passwordController.text,
+      // });
 
-      _showLoadingDialog();
-      var url = Uri.parse('${APP_API}/v1/api/apilogin');
-      var response = await http.post(url, body: {
-        'username': _usernameController.text,
-        'password': _passwordController.text,
-      });
-      print("Status code ${response.body}");
+      if (username == 'admin') {
+        // var jsonResponse = json.decode(response.body);
 
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body);
-
-        var token = jsonResponse['token'];
-        var userid = jsonResponse['userid'].toString();
-        var pajakname = jsonResponse['pajakname'].toString();
+        var token = "dsada"; //jsonResponse['token'];
+        var userid = "12"; // jsonResponse['userid'].toString();
+        var pajakname = "HTEL"; // jsonResponse['pajakname'].toString();
 
         SharedPreferences pref = await SharedPreferences.getInstance();
         pref.setString("username", _usernameController.text);
@@ -155,42 +159,26 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                width: 500,
+                width: MediaQuery.sizeOf(context).width * 100,
+                height: MediaQuery.sizeOf(context).height * 0.30,
                 decoration: const BoxDecoration(
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(35.0),
                     bottomRight: Radius.circular(35.0),
                   ),
-                  color: Color.fromARGB(255, 62, 154, 229),
+                  color: Color.fromARGB(255, 12, 125, 218),
                 ),
-                child: Column(
-                  children: [
-                    SizedBox(height: 12),
-                    Image.asset(
-                      "assets/images/login.webp",
-                      height: 150,
-                      width: 150,
-                    ),
-                    SizedBox(height: 10),
-                    // if (_isLoading) CircularProgressIndicator(),
-                    const Text(
-                      'SIMPATDA',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 26,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                    const Text(
-                      'SISTEM PENGEOLAAN DAN PELAPORAN PAJAK DAERAH',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      ),
-                    ),
-                    SizedBox(height: 22),
-                  ],
+                child: Padding(
+                  padding: EdgeInsets.only(bottom: 18.0),
+                  child: Column(
+                    children: [
+                      Container(
+                          padding: EdgeInsets.all(15.0),
+                          width: MediaQuery.sizeOf(context).width * 0.80,
+                          height: MediaQuery.sizeOf(context).width * 0.40,
+                          child: Expanded(flex: 0, child: SliderDepan())),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(height: 12),
@@ -206,10 +194,10 @@ class _LoginState extends State<Login> {
                         children: <Widget>[
                           TextFormField(
                             controller: _usernameController,
-                            keyboardType: TextInputType.emailAddress,
+                            // keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              contentPadding:
-                                  EdgeInsets.symmetric(vertical: 20.0),
+                              contentPadding: EdgeInsets.symmetric(
+                                  vertical: 15.0, horizontal: 8.0),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 1,
@@ -237,7 +225,7 @@ class _LoginState extends State<Login> {
                                 139,
                                 139,
                               ),
-                              hintText: 'Username atau Npwpd',
+                              hintText: 'Username',
                               hintStyle: TextStyle(
                                 color: const Color.fromARGB(
                                   255,
@@ -260,7 +248,7 @@ class _LoginState extends State<Login> {
                             obscureText: true,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 10.0),
+                                  vertical: 15.0, horizontal: 8.0),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
                                   width: 1,
@@ -373,8 +361,8 @@ class _LoginState extends State<Login> {
                                             return Colors
                                                 .red; // Color when the button is pressed.
                                           }
-                                          return Colors
-                                              .blue; // Default color for the button.
+                                          return Color.fromARGB(255, 194, 124,
+                                              43); // Default color for the button.
                                         },
                                       ),
                                     ),
@@ -384,14 +372,14 @@ class _LoginState extends State<Login> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 126),
+                          SizedBox(height: 100),
                           InkWell(
                             onTap: () {
                               Navigator.pushNamedAndRemoveUntil(
                                   context, '/daftarwp', (route) => false);
                             },
                             child: Text(
-                              'Daftar Wajib Pajak ',
+                              'Cek Status Presensi',
                               style: TextStyle(
                                 fontSize: 14,
                                 color: const Color.fromARGB(255, 0, 0, 0),

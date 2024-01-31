@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:simpad_flutter/env.dart';
+import 'package:presensi_app/env.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 
@@ -46,7 +46,7 @@ class _CetakKartuWp extends State<CetakKartuWp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Kartu Wajib Pajak'),
+        title: Text('Kartu Wajib Absensi Cetak'),
         actions: <Widget>[
           IconButton(
             icon: const Icon(

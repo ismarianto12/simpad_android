@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_charts/flutter_charts.dart';
-import 'package:simpad_flutter/utils/middleware.dart';
+import 'package:presensi_app/utils/middleware.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:unicons/unicons.dart';

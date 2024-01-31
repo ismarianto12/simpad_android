@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simpad_flutter/components/navigate.dart';
-import 'package:simpad_flutter/pages/login.dart';
-import 'package:simpad_flutter/route.dart';
-import 'package:simpad_flutter/utils/middleware.dart';
+import 'package:presensi_app/components/navigate.dart';
+import 'package:presensi_app/pages/login.dart';
+import 'package:presensi_app/route.dart';
+import 'package:presensi_app/utils/middleware.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -59,28 +59,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-
-
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   // This widget is the root of your application.
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       onGenerateRoute: MyRouter.generateRoute,
-//       debugShowCheckedModeBanner: false,
-//       initialRoute: '/',
-//       title: 'Simpad',
-//       theme: ThemeData(
-//         colorScheme: ColorScheme.fromSeed(
-//             seedColor: const Color.fromARGB(255, 255, 255, 255)),
-//         // useMaterial3: true,
-//       ),
-//       builder: Buil,
-
-//       home: Login(),
-//     );
-//   }
-// }

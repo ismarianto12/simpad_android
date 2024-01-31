@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simpad_flutter/components/navigate.dart';
+import 'package:presensi_app/components/navigate.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class CaraBayar extends StatefulWidget {

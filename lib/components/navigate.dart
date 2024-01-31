@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:simpad_flutter/pages/ActionPage.dart';
-import 'package:simpad_flutter/pages/Chart.dart';
-import 'package:simpad_flutter/pages/dashboard.dart';
+import 'package:presensi_app/pages/ActionPage.dart';
+import 'package:presensi_app/pages/Chart.dart';
+import 'package:presensi_app/pages/dashboard.dart';
 
 import '../pages/Profile.dart';
 import '../pages/laporSptpd.dart';
@@ -31,7 +31,7 @@ class _NavigateState extends State<Navigate> {
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: screens[index_color],
       bottomNavigationBar: BottomAppBar(
-        height: MediaQuery.of(context).size.height * 0.08,
+        height: MediaQuery.of(context).size.height * 0.11,
         color: Color.fromARGB(255, 255, 255, 255),
         shape: CircularNotchedRectangle(),
         child: Container(
@@ -52,19 +52,18 @@ class _NavigateState extends State<Navigate> {
                       bottom: index_color == 0
                           ? BorderSide(
                               color: Colors
-                                  .grey, // Set the color of the bottom border
+                                  .red, // Set the color of the bottom border
                               width: 2.0, // Set the width of the bottom border
                             )
                           : BorderSide(
                               color: Colors
-                                  .white, // Set the color of the bottom border
+                                  .transparent, // Set the color of the bottom border
                               width: 2.0, // Set the width of the bottom border
                             ),
                     ),
                   ),
                   child: Column(
                     children: [
-                      SizedBox(height: 10),
                       Icon(
                         UniconsLine.estate,
                         size: 30,
@@ -73,48 +72,6 @@ class _NavigateState extends State<Navigate> {
                       ),
                       Text(
                         "Home",
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 0, 0, 0),
-                          fontSize: 11.0,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    index_color = 1;
-                  });
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: index_color == 1
-                          ? BorderSide(
-                              color: Colors
-                                  .grey, // Set the color of the bottom border
-                              width: 2.0, // Set the width of the bottom border
-                            )
-                          : BorderSide(
-                              color: Colors
-                                  .white, // Set the color of the bottom border
-                              width: 2.0, // Set the width of the bottom border
-                            ),
-                    ),
-                  ),
-                  child: Column(
-                    children: [
-                      SizedBox(height: 10),
-                      Icon(
-                        UniconsLine.chart,
-                        size: 30,
-                        color:
-                            index_color == 1 ? Colors.green : Colors.green[100],
-                      ),
-                      Text(
-                        "Grafik Pad",
                         style: TextStyle(
                           color: const Color.fromARGB(255, 0, 0, 0),
                           fontSize: 11.0,
@@ -136,19 +93,18 @@ class _NavigateState extends State<Navigate> {
                       bottom: index_color == 2
                           ? BorderSide(
                               color: Colors
-                                  .grey, // Set the color of the bottom border
+                                  .red, // Set the color of the bottom border
                               width: 2.0, // Set the width of the bottom border
                             )
                           : BorderSide(
                               color: Colors
-                                  .white, // Set the color of the bottom border
+                                  .transparent, // Set the color of the bottom border
                               width: 2.0, // Set the width of the bottom border
                             ),
                     ),
                   ),
                   child: Column(
                     children: [
-                      SizedBox(height: 10),
                       Icon(
                         UniconsLine.list_ui_alt,
                         size: 30,
@@ -156,7 +112,7 @@ class _NavigateState extends State<Navigate> {
                             index_color == 2 ? Colors.green : Colors.green[100],
                       ),
                       Text(
-                        "Realisasi Pad",
+                        "Rerport Presensi",
                         style: TextStyle(
                           color: const Color.fromARGB(255, 0, 0, 0),
                           fontSize: 11.0,
@@ -178,19 +134,18 @@ class _NavigateState extends State<Navigate> {
                       bottom: index_color == 3
                           ? BorderSide(
                               color: Colors
-                                  .grey, // Set the color of the bottom border
+                                  .red, // Set the color of the bottom border
                               width: 2.0, // Set the width of the bottom border
                             )
                           : BorderSide(
                               color: Colors
-                                  .white, // Set the color of the bottom border
+                                  .transparent, // Set the color of the bottom border
                               width: 2.0, // Set the width of the bottom border
                             ),
                     ),
                   ),
                   child: Column(
                     children: [
-                      SizedBox(height: 10),
                       Icon(
                         UniconsLine.user,
                         size: 30,

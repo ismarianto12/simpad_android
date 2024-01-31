@@ -1,5 +1,5 @@
-name: simpad_flutter
-description: A new Flutter project.
+name: presensi_app
+description: Aplikasi Presensi Siswa.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -34,6 +34,7 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+  qr_code_scanner: ^1.0.1
   cupertino_icons: ^1.0.2
   flutter_charts: ^0.5.1
   file_picker: ^4.1.4

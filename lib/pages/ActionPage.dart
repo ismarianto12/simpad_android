@@ -27,7 +27,7 @@ class _ActionPageState extends State<ActionPage>
 
   @override
   Widget build(BuildContext context) {
-    final tinggi = MediaQuery.of(context).size.height * 0.30;
+    final tinggi = MediaQuery.of(context).size.height * 0.20;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           onPressed: () {

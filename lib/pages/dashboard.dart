@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:presensi_app/pages/Jadwal.dart';
+import 'package:presensi_app/pages/kartuAbsen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:simpad_flutter/components/menu.dart';
-import 'package:simpad_flutter/pages/CaraBayar.dart';
-import 'package:simpad_flutter/pages/CetakKartuWp.dart';
-import 'package:simpad_flutter/pages/login.dart';
-import 'package:simpad_flutter/utils/middleware.dart';
+import 'package:presensi_app/components/SliderDepanDash.dart';
+import 'package:presensi_app/components/menu.dart';
+import 'package:presensi_app/pages/CaraBayar.dart';
+import 'package:presensi_app/pages/CetakKartuWp.dart';
+import 'package:presensi_app/pages/login.dart';
+import 'package:presensi_app/pages/scapresensi.dart';
+import 'package:presensi_app/utils/middleware.dart';
 import 'package:unicons/unicons.dart';
 import '../components/menuitems.dart';
 import 'package:flutter_charts/flutter_charts.dart';
@@ -57,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
             Stack(
               children: [
                 Container(
-                  margin: EdgeInsets.only(bottom: 30),
+                  margin: EdgeInsets.only(bottom: 10),
                   width: double.infinity,
                   // height: double.infinity,
                   height: MediaQuery.of(context).size.height * 0.45,
@@ -76,34 +80,41 @@ class _DashboardState extends State<Dashboard> {
                     // ),
                   ),
                 ),
-                // SizedBox(
-                //   height: 49,
-                // ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: 130,
-                    ),
-                    Icon(
-                      UniconsLine.user_exclamation,
-                      size: 30,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                    ),
-                    Text(
-                      "DASHBOARD",
-                      style: TextStyle(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          fontSize: 20.0),
-                    ),
-                  ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 19.0, left: 19.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'E- Presensis QR ',
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: 'tahoma',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                      Text(
+                        'Mon, 29 Oct 2024 23:24',
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontFamily: 'tahoma',
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 100.0, left: 10.0, right: 10.0),
+                  child: Expanded(child: SliderDepanDash()),
                 ),
                 Padding(
                   padding: EdgeInsets.only(
-                      top: MediaQuery.of(context).size.height * 0.16),
+                      top: MediaQuery.of(context).size.height * 0.35),
                   child: Container(
                     width: MediaQuery.of(context).size.width * 100,
-                    height: MediaQuery.of(context).size.height * 0.60,
+                    height: MediaQuery.of(context).size.height * 0.30,
                     decoration: BoxDecoration(
                       color: Color.fromARGB(255, 255, 255, 255),
                       borderRadius: BorderRadius.only(
@@ -125,13 +136,8 @@ class _DashboardState extends State<Dashboard> {
                             ),
                           ),
                           SizedBox(
-                            height: 20.0,
+                            height: 30.0,
                           ),
-
-                          SizedBox(
-                            height: 10.0,
-                          ),
-
                           Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: GridView.count(
@@ -142,8 +148,10 @@ class _DashboardState extends State<Dashboard> {
                                 // Your grid items
                                 InkWell(
                                   onTap: () {
-                                    Navigator.pushNamed(
-                                        context, '/lapor_sptpd');
+                                    Route route = MaterialPageRoute(
+                                      builder: (context) => Jadwal(),
+                                    );
+                                    Navigator.push(context, route);
                                   },
                                   child: Container(
                                     child: Column(
@@ -154,7 +162,11 @@ class _DashboardState extends State<Dashboard> {
                                           width: 50,
                                         ),
                                         SizedBox(height: 10),
-                                        Text('Tagihan')
+                                        Text(
+                                          'Jadwal',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -162,8 +174,7 @@ class _DashboardState extends State<Dashboard> {
                                 InkWell(
                                   onTap: () {
                                     Route route = MaterialPageRoute(
-                                      builder: (context) =>
-                                          CetakKartuWp(paramid: "12"),
+                                      builder: (context) => KartuAbsen(),
                                     );
                                     Navigator.push(context, route);
                                   },
@@ -176,7 +187,11 @@ class _DashboardState extends State<Dashboard> {
                                           width: 50,
                                         ),
                                         SizedBox(height: 10),
-                                        Text('Cetak Kartu WP')
+                                        Text(
+                                          'Cetak Kartu',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )
                                       ],
                                     ),
                                   ),
@@ -184,137 +199,90 @@ class _DashboardState extends State<Dashboard> {
                                 InkWell(
                                   onTap: () {
                                     Route route = MaterialPageRoute(
-                                      builder: (context) => CaraBayar(),
+                                      builder: (context) => ScanPresensi(),
                                     );
                                     Navigator.push(context, route);
                                   },
                                   child: Container(
                                     child: Column(
                                       children: [
-                                        Image.network(
-                                          "https://static.vecteezy.com/system/resources/previews/010/148/344/original/tax-icon-sign-symbol-design-free-png.png",
-                                          height: 50,
-                                          width: 50,
+                                        Icon(
+                                          UniconsLine.qrcode_scan,
+                                          size:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.15,
+                                          color: Colors.red,
                                         ),
-                                        SizedBox(height: 10),
-                                        Text('Tatacara Bayar')
+                                        SizedBox(height: 2),
+                                        Text(
+                                          'Scan Presensi',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold),
+                                        )
                                       ],
                                     ),
                                   ),
                                 ),
 
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, '/lapor_sptpd');
-                                  },
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        Image.network(
-                                          "https://static.vecteezy.com/system/resources/previews/010/146/533/original/tax-icon-sign-symbol-design-free-png.png",
-                                          height: 50,
-                                          width: 50,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text('SPTPD')
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(context, '/list_sptpd');
-                                  },
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        Image.asset(
-                                          "assets/images/spt.png",
-                                          height: 50,
-                                          width: 50,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text('List SPTPD')
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, '/riwayat_bayar');
-                                  },
-                                  child: Container(
-                                    child: Column(
-                                      children: [
-                                        Image.network(
-                                          "https://static.vecteezy.com/system/resources/previews/010/148/344/original/tax-icon-sign-symbol-design-free-png.png",
-                                          height: 50,
-                                          width: 50,
-                                        ),
-                                        SizedBox(height: 10),
-                                        Text('Riwayat Bayar')
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.pushNamed(
+                                //         context, '/lapor_sptpd');
+                                //   },
+                                //   child: Container(
+                                //     child: Column(
+                                //       children: [
+                                //         Image.network(
+                                //           "https://static.vecteezy.com/system/resources/previews/010/146/533/original/tax-icon-sign-symbol-design-free-png.png",
+                                //           height: 50,
+                                //           width: 50,
+                                //         ),
+                                //         SizedBox(height: 10),
+                                //         Text('SPTPD')
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.pushNamed(context, '/list_sptpd');
+                                //   },
+                                //   child: Container(
+                                //     child: Column(
+                                //       children: [
+                                //         Image.asset(
+                                //           "assets/images/spt.png",
+                                //           height: 50,
+                                //           width: 50,
+                                //         ),
+                                //         SizedBox(height: 10),
+                                //         Text('List SPTPD')
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     Navigator.pushNamed(
+                                //         context, '/riwayat_bayar');
+                                //   },
+                                //   child: Container(
+                                //     child: Column(
+                                //       children: [
+                                //         Image.network(
+                                //           "https://static.vecteezy.com/system/resources/previews/010/148/344/original/tax-icon-sign-symbol-design-free-png.png",
+                                //           height: 50,
+                                //           width: 50,
+                                //         ),
+                                //         SizedBox(height: 10),
+                                //         Text('Riwayat Bayar')
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
-                          // SizedBox(height: 12.0),
-                          Container(
-                            color: Color.fromARGB(255, 255, 162, 0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.network(
-                                    'https://static.vecteezy.com/system/resources/previews/010/896/688/original/menu-icon-sign-symbol-design-free-png.png',
-                                    height: 40,
-                                    width: 40,
-                                  ),
-                                  SizedBox(width: 10),
-                                  Center(
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                          "TOTAL LAPOR PAD PERTANGGAL : ",
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                        Text(
-                                          'Rp 12.000.000',
-                                          style: TextStyle(
-                                              fontSize: 15.0,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-
-                          SizedBox(
-                            height: 10,
-                          ),
-                          // Center(
-                          //   child: Container(
-                          //     width: 250,
-                          //     child: ListTile(
-                          //       leading: Icon(UniconsLine.estate),
-                          //       title: Text('Totoal Lapor Pad'),
-                          //       subtitle: Text('12.000.000'),
-                          //       trailing: Icon(UniconsLine.money_stack),
-                          //     ),
-                          //   ),
-                          // ),
                         ],
                       ),
                     ),
@@ -347,7 +315,7 @@ class _DashboardState extends State<Dashboard> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                getusername,
+                "DR. SOBARI ROSYDIN - GURU",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
@@ -409,7 +377,7 @@ class _DashboardState extends State<Dashboard> {
                     //   child: Icon(Icons.arrow_back, color: Colors.white),
                     // ),
                     Text(
-                      'Lapor E-SPTPD',
+                      'Admin Panel - Guru',
                       style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
@@ -445,14 +413,6 @@ class _DashboardState extends State<Dashboard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(width: 20),
-                  Text(
-                    'Dashboard Panel',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'tahoma',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white),
-                  ),
                 ],
               ),
             ],

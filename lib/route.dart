@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:simpad_flutter/pages/DaftarWp.dart';
-import 'package:simpad_flutter/pages/LupaPass.dart';
-import 'package:simpad_flutter/pages/Profile.dart';
-import 'package:simpad_flutter/pages/RiwayatBayar.dart';
-import 'package:simpad_flutter/pages/dashboard.dart';
-import 'package:simpad_flutter/pages/laporSptpd.dart';
-import 'package:simpad_flutter/pages/listSptpd.dart';
-import 'package:simpad_flutter/pages/login.dart';
+import 'package:presensi_app/pages/DaftarWp.dart';
+import 'package:presensi_app/pages/LupaPass.dart';
+import 'package:presensi_app/pages/Profile.dart';
+import 'package:presensi_app/pages/RiwayatBayar.dart';
+import 'package:presensi_app/pages/dashboard.dart';
+import 'package:presensi_app/pages/laporSptpd.dart';
+import 'package:presensi_app/pages/listSptpd.dart';
+import 'package:presensi_app/pages/login.dart';
+import 'package:presensi_app/pages/statusPresensi.dart';
 
 import 'components/navigate.dart';
 
@@ -26,7 +27,7 @@ class MyRouter {
       case '/login':
         return MaterialPageRoute(builder: (_) => Login());
       case '/daftarwp':
-        return MaterialPageRoute(builder: (_) => DaftarWp());
+        return MaterialPageRoute(builder: (_) => StatusPresensi());
       case '/lupapass':
         return MaterialPageRoute(builder: (_) => LupaPass());
 
